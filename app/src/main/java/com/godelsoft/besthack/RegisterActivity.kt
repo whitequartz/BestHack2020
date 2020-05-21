@@ -5,9 +5,11 @@ import android.view.View.INVISIBLE
 import android.view.View.VISIBLE
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_register.*
+import kotlinx.android.synthetic.main.activity_sign_in.*
 import org.jetbrains.anko.clearTask
 import org.jetbrains.anko.intentFor
 import org.jetbrains.anko.newTask
+import java.lang.Exception
 
 class RegisterActivity : AppCompatActivity()   {
 
@@ -21,14 +23,27 @@ class RegisterActivity : AppCompatActivity()   {
             textErrorEMail.visibility = INVISIBLE
             textErrorPassword.visibility = INVISIBLE
 
-            val loginExsist = false  // email лежит в editTextTextEmailAddress.text
-            if(loginExsist) {
-                textErrorEMail.visibility = VISIBLE
-            } else if(editTextTextPassword.text.toString() != editTextTextPassword2.text.toString()) {
+            if (editTextTextPassword.text.toString() != editTextTextPassword2.text.toString()) {
                 textErrorPassword.visibility = VISIBLE
-            } else {
-                // create new account
-                startActivity(intentFor<MainActivity>().newTask().clearTask())
+            }
+            else {
+                try {
+                    val data = "REGISTER ${editTextTextEmailAddress.text} ${editTextTextPassword.text} "
+                    val test = TcpRequest(data) { res ->
+                        if (res?.succ == true) {
+                            runOnUiThread {
+                                startActivity(intentFor<MainActivity>().newTask().clearTask())
+                            }
+                        } else {
+                            runOnUiThread {
+                                textErrorEMail.visibility = VISIBLE
+                            }
+                        }
+                    }
+                    Thread(test).start()
+                } catch (e: Exception) {
+
+                }
             }
         }
 

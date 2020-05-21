@@ -2,6 +2,7 @@ package com.godelsoft.besthack
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import kotlinx.android.synthetic.main.activity_secret.*
 import kotlinx.android.synthetic.main.activity_sign_in.*
 import org.jetbrains.anko.*
 import java.lang.Exception
@@ -13,15 +14,18 @@ class SignInActivity : AppCompatActivity()  {
         setContentView(R.layout.activity_sign_in)
 
         buttonLogin.setOnClickListener {
-            var signedIn = false
             try {
-                signedIn = true  // Запрос лог: textEmailAddress.text пароль: textPassword.text
-            } catch (e: Exception) {  }
-
-            if (signedIn) {
-                startActivity(intentFor<MainActivity>().newTask().clearTask())
-            } else {
-
+                val data = "AUTH ${textEmailAddress.text} ${textPassword.text} "
+                val test = TcpRequest(data) { res ->
+                    if (res?.succ == true) {
+                        runOnUiThread {
+                            startActivity(intentFor<MainActivity>().newTask().clearTask())
+                        }
+                    }
+                }
+                Thread(test).start()
+            } catch (e: Exception) {
+                // TODO
             }
         }
 

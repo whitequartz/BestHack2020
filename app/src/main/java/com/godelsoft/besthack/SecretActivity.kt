@@ -12,9 +12,9 @@ class SecretActivity : AppCompatActivity() {
         setContentView(R.layout.activity_secret)
 
         button_test_1.setOnClickListener {
-            val data = "TEST ${response_testbox.text.toString()}"
+            val data = "AUTH ${response_testbox.text.toString()} qwerty "
             val test = TcpRequest(data) { res ->
-                if (res.succ == true) {
+                if (res?.succ == true) {
                     runOnUiThread {
                         response_testbox.setText(res.data)
                     }
@@ -24,8 +24,8 @@ class SecretActivity : AppCompatActivity() {
         }
 
         button_test_2.setOnClickListener {
-//            response_testbox.setText("helllLLL0VeEEEEEEEEEEEEEu!ersDA")
-            val foos = Response("""{"succ":true,"data":"QweqwrtTerwerwe"}""")
+            response_testbox.setText("helllLLL0VeEEEEEEEEEEEEEu!ersDA")
+//            val foos = Response("""{"Succ":true,"Data":"QweqwrtTerwerwe"}""")
         }
     }
 }
