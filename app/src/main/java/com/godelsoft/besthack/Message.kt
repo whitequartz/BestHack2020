@@ -9,7 +9,7 @@ class Message(
     val clickF: ((user: User) -> Unit)? = null
 ) {
     companion object {
-        fun selectMessages(adapter: MessageAdapter, vararg messages: Message): List<Message> {
+        fun selectMessages(adapter: MessageAdapter, messages:  ArrayList<Message>): List<Message> {
             val list = mutableListOf<Message>()
             for (m in messages) {
                 list.add(Message(m.sender, m.text, m.time) {

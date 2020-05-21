@@ -19,21 +19,32 @@ class IssueChatActivity : AppCompatActivity() {
         recycleView.adapter = recycleAdapter
 
         val ts = User("Support", UserType.SUPPORT)
-        recycleAdapter.add(Message.selectMessages(recycleAdapter,
-            Message(User.current, "1", "sss") {
-                recycleAdapter.add(mutableListOf(Message(ts, "Точно 1?", "sss")).apply {
-                    addAll(Message.selectMessages(recycleAdapter,
-                            Message(User.current, "Точно!", "2") {
-                                recycleAdapter.add(listOf(Message(ts, "ok", "228")))
-                            },
-                            Message(User.current, "Нет", "2")
-                        ))
-                })
-            },
-            Message(User.current, "2", "sss") {
-                startActivity<LoginActivity>()
-            }
-        ))
+        val bot = Bot(ts, User.current, recycleAdapter)
+        recycleAdapter.add(Message.selectMessages(recycleAdapter, arrayListOf(
+            bot.getMessage("FAQ"),
+            bot.getMessage("request"),
+            bot.getMessage("support"))))
+
+//        recycleAdapter.add(Message.selectMessages(recycleAdapter,
+//            Message(User.current, "1", "sss") {
+////                recycleAdapter.add(Message.selectMessages(recycleAdapter,
+////                            Message(User.current, "Точно!", "2") {
+////                                recycleAdapter.add(listOf(Message(ts, "ok", "228")))
+////                            },
+////                            Message(User.current, "Нет", "2")))
+//                recycleAdapter.add(mutableListOf(Message(ts, "Точно 1?", "sss")).apply {
+//                    addAll(Message.selectMessages(recycleAdapter,
+//                            Message(User.current, "Точно!", "2") {
+//                                recycleAdapter.add(listOf(Message(ts, "ok", "228")))
+//                            },
+//                            Message(User.current, "Нет", "2")
+//                        ))
+//                })
+//            },
+//            Message(User.current, "2", "sss") {
+//                startActivity<LoginActivity>()
+//            }
+//        ))
 
         val connectToSupport = fun() {
 
