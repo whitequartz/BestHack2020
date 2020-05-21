@@ -83,7 +83,10 @@ class MainActivity : AppCompatActivity() {
                 floatingActionButton.visibility = GONE
             }
         }
-        startActivity<IssueChatActivity>()
+
+        floatingActionButton.setOnClickListener {
+            startActivity<IssueChatActivity>()
+        }
     }
 
     companion object {

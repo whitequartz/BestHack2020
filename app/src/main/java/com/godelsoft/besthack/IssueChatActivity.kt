@@ -1,11 +1,19 @@
 package com.godelsoft.besthack
 
-import androidx.appcompat.app.AppCompatActivity
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
 import android.os.Bundle
+import android.transition.TransitionManager
+import android.view.View.GONE
+import android.view.View.VISIBLE
+import androidx.appcompat.app.AppCompatActivity
+import kotlinx.android.synthetic.main.activity_issue_chat.*
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.godelsoft.besthack.recycleViewAdapters.MessageAdapter
-import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_main.recycleView
 import org.jetbrains.anko.startActivity
+import java.util.*
+
 
 class IssueChatActivity : AppCompatActivity() {
     lateinit var recycleAdapter: MessageAdapter
@@ -17,6 +25,24 @@ class IssueChatActivity : AppCompatActivity() {
         recycleAdapter =
             MessageAdapter(this, recycleView)
         recycleView.adapter = recycleAdapter
+        bottom.visibility = GONE
+
+        back.setOnClickListener {
+            onBackPressed()
+        }
+
+        val connectToSupport = fun() {
+            bottom.visibility = VISIBLE
+            TransitionManager.beginDelayedTransition(root)
+
+            send.setOnClickListener {
+                recycleAdapter.add(arrayListOf(
+                    Message(User.current, editText_message.text.toString(), "${CalFormatter.datef(Calendar.getInstance())} ${CalFormatter.timef(Calendar.getInstance())}")
+                ))
+                editText_message.text.clear()
+            }
+        }
+
 
         val ts = User("Support", UserType.SUPPORT)
         recycleAdapter.add(Message.selectMessages(recycleAdapter,
@@ -26,7 +52,9 @@ class IssueChatActivity : AppCompatActivity() {
                             Message(User.current, "Точно!", "2") {
                                 recycleAdapter.add(listOf(Message(ts, "ok", "228")))
                             },
-                            Message(User.current, "Нет", "2")
+                            Message(User.current, "Нет", "2") {
+                                connectToSupport()
+                            }
                         ))
                 })
             },
@@ -35,9 +63,7 @@ class IssueChatActivity : AppCompatActivity() {
             }
         ))
 
-        val connectToSupport = fun() {
 
-        }
 
 //        var f = {}
 //        f = {
