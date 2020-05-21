@@ -13,13 +13,13 @@ class Message(
             val list = mutableListOf<Message>()
             for (m in messages) {
                 list.add(Message(m.sender, m.text, m.time) {
-                    adapter.update(adapter.messageList.filter { message -> !list.contains(message) }.plus(
-                        Message(m.sender, m.text, m.time)
-                    ))
-                    m.clickF?.apply {
-                        this(it)
-                    }
-                    adapter.scrollDown()
+                    adapter.remove(list)
+                    adapter.add(listOf(Message(m.sender, m.text, m.time)))
+                    adapter.recyclerView.postDelayed({
+                        m.clickF?.apply {
+                            this(it)
+                        }
+                    }, (400).toLong())
                 })
             }
             return list

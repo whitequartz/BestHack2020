@@ -22,7 +22,7 @@ import kotlinx.android.synthetic.main.card_message.view.*
 
 class MessageAdapter(
     private val context: Context,
-    private val recyclerView: RecyclerView
+    val recyclerView: RecyclerView
 ) : RecyclerView.Adapter<MessageAdapter.MessageViewHolder>() {
     var messageList = mutableListOf<Message>()
 
@@ -34,7 +34,7 @@ class MessageAdapter(
             text.text = message.text
             time.text = message.time
 
-            itemView.setOnClickListener(null)
+            itemView.message_root.setOnClickListener(null)
 
             if (message.clickF == null) {
                 itemView.message_root.setCardBackgroundColor(ContextCompat.getColor(context, R.color.colorIcons))
@@ -100,10 +100,16 @@ class MessageAdapter(
 
     fun add(data: List<Message>) {
         messageList.addAll(data)
-        notifyDataSetChanged()
+        notifyItemRangeInserted(messageList.size - data.size, data.size)
     }
 
-    fun scrollDown() {
-        recyclerView.postDelayed({ recyclerView.smoothScrollToPosition(itemCount - 1) }, 5)
+    fun remove(data: List<Message>) {
+        val startPos = messageList.indexOf(data[0])
+        messageList.removeAll(data)
+        notifyItemRangeRemoved(startPos, data.size)
     }
+
+//    fun scrollDown() {
+//        recyclerView.postDelayed({ recyclerView.smoothScrollToPosition(itemCount - 1) }, 5)
+//    }
 }
