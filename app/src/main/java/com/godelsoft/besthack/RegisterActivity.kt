@@ -31,5 +31,9 @@ class RegisterActivity : AppCompatActivity()   {
                 startActivity(intentFor<MainActivity>().newTask().clearTask())
             }
         }
+
+        buttonLogIn.setOnClickListener {
+            startActivity(intentFor<SignInActivity>().newTask().clearTask())
+        }
     }
 }
