@@ -17,7 +17,7 @@ class tcpTequest(private val data : String, private val callback: (String) -> Un
             val outStream = PrintWriter(OutputStreamWriter(socket.getOutputStream(), "UTF-8"))
 
             print("[REQUEST]:")
-            outStream.println(data + "\n")
+            outStream.println(data)
             outStream.flush()
 
             val line = inStream.readLine()

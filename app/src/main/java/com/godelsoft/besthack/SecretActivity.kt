@@ -16,7 +16,8 @@ class SecretActivity : AppCompatActivity() {
         setContentView(R.layout.activity_secret)
 
         button_test_1.setOnClickListener {
-            val test = tcpTequest(response_testbox.text.toString()) { res ->
+            val data = "TEST ${response_testbox.text.toString()}"
+            val test = tcpTequest(data) { res ->
                 runOnUiThread {
                     response_testbox.setText(res)
                 }
@@ -25,7 +26,7 @@ class SecretActivity : AppCompatActivity() {
         }
 
         button_test_2.setOnClickListener {
-            response_testbox.setText("2222222 2222 2222222 22222222")
+            response_testbox.setText("helllLLL0VeEEEEEEEEEEEEEu!ersDA")
         }
     }
 }
