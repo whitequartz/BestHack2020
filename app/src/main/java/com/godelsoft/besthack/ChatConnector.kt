@@ -25,10 +25,15 @@ class ChatConnector(private val chatID: Long, private val callback: (String?) ->
         outStream.flush()
 
         while (isActive) {
-            val line: String? = inStream.readLine()
-            if (line == null)
-                callback("") // TODO: exception
-            callback(line)
+            try {
+                val line: String? = inStream.readLine()
+                if (line == null)
+                    callback("") // TODO: exception
+                callback(line)
+            }
+            catch (e: Exception) {
+                isActive = false
+            }
         }
     }
 
