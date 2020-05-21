@@ -103,7 +103,10 @@ class MessageAdapter(
     }
 
     fun remove(data: List<Message>) {
-        val startPos = messageList.indexOf(data[0])
+        var startPos = 0
+        for ((i, m) in messageList.withIndex()) {
+            if (m.text == data[0].text) startPos = i
+        }
         messageList.removeAll(data)
         notifyItemRangeRemoved(startPos, data.size)
     }

@@ -8,35 +8,43 @@ data class Bot(val botSender: User, val sender: User, val recycleAdapter: Messag
     private val dialogStatus =  hashMapOf<String, Message>()
     private val currentStatus: String = "/"
 
-    fun addMessage(name: String, answer: String, array: Array<String>) {
-        dialogStatus[name] = Message(sender, name, "${CalFormatter.datef(
+    fun addMessage(hashname: String, text: String, answer: String, array: Array<String>) {
+        dialogStatus[hashname] = Message(sender, text, "${CalFormatter.datef(
             Calendar.getInstance())} ${CalFormatter.timef(Calendar.getInstance())}") {
-            recycleAdapter.add(mutableListOf(Message(botSender, answer, "${CalFormatter.datef(
-                Calendar.getInstance())} ${CalFormatter.timef(Calendar.getInstance())}")).apply {
+            if (answer == "") {
                 val messages = ArrayList<Message>()
                 for (elem in array) {
-                    dialogStatus[elem]?.let { messages.add(getMessage(it.text)) }
+                    dialogStatus[elem]?.let { messages.add(getMessage(elem)) }
                 }
-                addAll(Message.selectMessages(recycleAdapter, messages
-                ))
-            })
+                recycleAdapter.add(messages)
+            } else {
+                recycleAdapter.add(mutableListOf(Message(botSender, answer, "${CalFormatter.datef(
+                    Calendar.getInstance())} ${CalFormatter.timef(Calendar.getInstance())}")).apply {
+                    val messages = ArrayList<Message>()
+                    for (elem in array) {
+                        dialogStatus[elem]?.let { messages.add(getMessage(elem)) }
+                    }
+                    addAll(Message.selectMessages(recycleAdapter, messages
+                    ))
+                })
+            }
         }
     }
 
-    fun getMessage(name: String): Message {
+    fun getMessage(hashname: String): Message {
 
-        dialogStatus[name] ?.let { return Message(it.sender, it.text, "${CalFormatter.datef(
+        dialogStatus[hashname] ?.let { return Message(it.sender, it.text, "${CalFormatter.datef(
             Calendar.getInstance())} ${CalFormatter.timef(Calendar.getInstance())}", it.clickF) }
-        return Message(sender, "Empty", "${CalFormatter.datef(
+        return Message(sender, "", "${CalFormatter.datef(
             Calendar.getInstance())} ${CalFormatter.timef(Calendar.getInstance())}")
     }
 
     init {
-        addMessage("back", "Возвращаемся с начальному экрану", arrayOf("FAQ", "request", "support"))
-        addMessage("q1", "Ans1", arrayOf("back"))
-        addMessage("q2", "Ans2", arrayOf("back"))
-        addMessage("Частые вопросы", "Выберете категорию", arrayOf("q1", "q2"))
-        addMessage("request", "Выберете категорию", arrayOf("q1", "q2"))
-        addMessage("support", "Выберете категорию", arrayOf("q1", "q2"))
+        addMessage("back", "Назад", "", arrayOf("FAQ", "request", "call support"))
+        addMessage("q1", "вопрос1", "Ans1", arrayOf("back"))
+        addMessage("q2", "djghjc2", "Ans2", arrayOf("back"))
+        addMessage("FAQ", "Популярные вопросы", "Выберете категорию", arrayOf("q1", "q2"))
+        addMessage("request", "Создать заявку", "Выберете тип заявки", arrayOf("q1", "q2"))
+        addMessage("call support", "Соединить с оператором", "", arrayOf("q1", "q2"))
     }
 }
