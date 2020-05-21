@@ -20,7 +20,7 @@ class IssueChatActivity : AppCompatActivity() {
         recycleView.adapter = recycleAdapter
 
 
-        val ts = User("Support", UserType.SUPPORT)
+        val ts = User(0, "Support", UserType.SUPPORT)
         recycleAdapter.add(Message.selectMessages(recycleAdapter,
             Message(User.current, "1", "sss") {
                 recycleAdapter.add(mutableListOf(Message(ts, "Точно 1?", "sss")).apply {
@@ -36,73 +36,6 @@ class IssueChatActivity : AppCompatActivity() {
                 startActivity<LoginActivity>()
             }
         ))
-
-
-//        var f = {}
-//        f = {
-//            recycleAdapter.add(Message.selectMessages(recycleAdapter,
-//                Message(User.current, "Lorem 1", "time") {
-//                    Toast.makeText(MainActivity.mainContext, "Lorem 1", Toast.LENGTH_SHORT).show()
-//                    f()
-//                },Message(User.current, "Lorem 2", "time") {
-//                    Toast.makeText(MainActivity.mainContext, "Lorem 2", Toast.LENGTH_SHORT).show()
-//                    f()
-//                },Message(User.current, "Lorem 3", "time") {
-//                    Toast.makeText(MainActivity.mainContext, "Lorem 3", Toast.LENGTH_SHORT).show()
-//                    f()
-//                },Message(User.current, "Lorem 4", "time") {
-//                    Toast.makeText(MainActivity.mainContext, "Lorem 4", Toast.LENGTH_SHORT).show()
-//                    f()
-//                },Message(User.current, "Lorem 5", "time") {
-//                    Toast.makeText(MainActivity.mainContext, "Lorem 5", Toast.LENGTH_SHORT).show()
-//                    f()
-//                },Message(User.current, "Lorem 6", "time") {
-//                    Toast.makeText(MainActivity.mainContext, "Lorem 6", Toast.LENGTH_SHORT).show()
-//                    f()
-//                },Message(User.current, "Lorem 7", "time") {
-//                    Toast.makeText(MainActivity.mainContext, "Lorem 7", Toast.LENGTH_SHORT).show()
-//                    f()
-//                }
-//            ))
-//        }
-//
-//        val ts = User("Support", UserType.SUPPORT)
-//        recycleAdapter.update(
-//            mutableListOf(
-//            Message(User.current, "text", "time"),
-//            Message(User.current, "text", "time"),
-//            Message(User.current, "text", "time"),
-//            Message(ts, "text", "time"),
-//            Message(ts, "text", "time"),
-//            Message(User.current, "text", "time"),
-//            Message(ts, "text", "time"),
-//            Message(ts, "text", "time"),
-//            Message(ts, "text", "time"),
-//            Message(User.current, "text", "time")
-//        ).apply { addAll(Message.selectMessages(recycleAdapter,
-//                Message(User.current, "Lorem 1", "time") {
-//                    Toast.makeText(MainActivity.mainContext, "Lorem 1", Toast.LENGTH_SHORT).show()
-//                    f()
-//                },Message(User.current, "Lorem 2", "time") {
-//                    Toast.makeText(MainActivity.mainContext, "Lorem 2", Toast.LENGTH_SHORT).show()
-//                    f()
-//                },Message(User.current, "Lorem 3", "time") {
-//                    Toast.makeText(MainActivity.mainContext, "Lorem 3", Toast.LENGTH_SHORT).show()
-//                    f()
-//                },Message(User.current, "Lorem 4", "time") {
-//                    Toast.makeText(MainActivity.mainContext, "Lorem 4", Toast.LENGTH_SHORT).show()
-//                    f()
-//                },Message(User.current, "Lorem 5", "time") {
-//                    Toast.makeText(MainActivity.mainContext, "Lorem 5", Toast.LENGTH_SHORT).show()
-//                    f()
-//                },Message(User.current, "Lorem 6", "time") {
-//                    Toast.makeText(MainActivity.mainContext, "Lorem 6", Toast.LENGTH_SHORT).show()
-//                    f()
-//                },Message(User.current, "Lorem 7", "time") {
-//                    Toast.makeText(MainActivity.mainContext, "Lorem 7", Toast.LENGTH_SHORT).show()
-//                    f()
-//                }
-//                )) })
 
         recycleView.apply {
             layoutManager = LinearLayoutManager(MainActivity.main).apply {
