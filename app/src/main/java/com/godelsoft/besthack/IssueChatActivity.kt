@@ -8,11 +8,7 @@ import android.view.View.VISIBLE
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.godelsoft.besthack.recycleViewAdapters.MessageAdapter
 import kotlinx.android.synthetic.main.activity_issue_chat.*
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_main.recycleView
-import org.jetbrains.anko.startActivity
-import java.util.Collections.addAll
-import kotlin.math.log
 import java.util.*
 
 class IssueChatActivity : AppCompatActivity() {
@@ -22,36 +18,25 @@ class IssueChatActivity : AppCompatActivity() {
         setContentView(R.layout.activity_issue_chat)
 
         recycleView.layoutManager = LinearLayoutManager(this)
-        recycleAdapter =
-            MessageAdapter(this, recycleView)
+        recycleAdapter = MessageAdapter(this, recycleView)
         recycleView.adapter = recycleAdapter
         bottom.visibility = GONE
 
+        // Chat listener
         val connector = ChatConnector(1) { res ->
             if (res != null) {
                 val ts = User(0, "Support", UserType.SUPPORT)
-                recycleAdapter.add(listOf(Message(ts, res, "sss")))
+                runOnUiThread {
+                    recycleAdapter.add(listOf(Message(ts, res, "sss")))
+                }
             }
         }
+        Thread(connector).start()
 
-        val ts = User(0, "Support", UserType.SUPPORT)
-        recycleAdapter.add(Message.selectMessages(recycleAdapter,
-            Message(User.current, "1", "sss") {
-                recycleAdapter.add(mutableListOf(Message(ts, "Точно 1?", "sss")).apply {
-                    addAll(Message.selectMessages(recycleAdapter,
-                        Message(User.current, "Точно!", "2") {
-                            recycleAdapter.add(listOf(Message(ts, "ok", "228")))
-                        },
-                        Message(User.current, "Нет", "2")
-                    ))
-                })
-            },
-            Message(User.current, "2", "sss") {
-                startActivity<LoginActivity>()
-            }
-        ))
         back.setOnClickListener {
             onBackPressed()
+//            val t = TcpRequest("SEND_MSG helllLLL0VeEEEEEEEEEEEEEu!ersDA") {}
+//            Thread(t).start()
         }
 
         val connectToSupport = fun() {
@@ -66,14 +51,12 @@ class IssueChatActivity : AppCompatActivity() {
             }
         }
 
-
-        val ts = User("Support", UserType.SUPPORT)
+        val ts = User(0, "Support", UserType.SUPPORT)
         val bot = Bot(ts, User.current, recycleAdapter)
         recycleAdapter.add(Message.selectMessages(recycleAdapter, arrayListOf(
             bot.getMessage("FAQ"),
             bot.getMessage("request"),
             bot.getMessage("call support"))))
-
 
         recycleView.apply {
             layoutManager = LinearLayoutManager(MainActivity.main).apply {

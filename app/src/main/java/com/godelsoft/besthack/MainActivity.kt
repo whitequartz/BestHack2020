@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.godelsoft.besthack.recycleViewAdapters.IssueAdapter
 import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.startActivity
+import org.json.JSONArray
 
 class MainActivity : AppCompatActivity() {
     private lateinit var recycleAdapter: IssueAdapter
@@ -58,11 +59,20 @@ class MainActivity : AppCompatActivity() {
             val req = "GET_CUR_ISSUES ${User.current.ID}"
             val test = TcpRequest(req) { res ->
                 if (res?.succ == true) {
-                    val issues = JSONArray(res.data).
-                        let { 0.until(it.length()).map { i -> it.optJSONObject(i) } }.
-                        map { IssueJSON(it.toString()) }.
-                        map { Issue(it.id, it.title, it.time.toString(), it.description, Chat()) }
-                    recycleAdapter.update(issues)
+                    runOnUiThread {
+                        val issues = JSONArray(res.data).let {
+                            0.until(it.length()).map { i -> it.optJSONObject(i) }
+                        }.map { IssueJSON(it.toString()) }.map {
+                            Issue(
+                                it.id,
+                                it.title,
+                                it.time.toString(),
+                                it.description,
+                                Chat()
+                            )
+                        }
+                        recycleAdapter.update(issues)
+                    }
                 } else {
                     println("Insuccess current issues loading")
                     // TODO: error?
