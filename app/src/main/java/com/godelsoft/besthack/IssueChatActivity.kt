@@ -19,7 +19,6 @@ class IssueChatActivity : AppCompatActivity() {
             MessageAdapter(this, recycleView)
         recycleView.adapter = recycleAdapter
 
-
         val ts = User("Support", UserType.SUPPORT)
         recycleAdapter.add(Message.selectMessages(recycleAdapter,
             Message(User.current, "1", "sss") {
@@ -37,6 +36,9 @@ class IssueChatActivity : AppCompatActivity() {
             }
         ))
 
+        val connectToSupport = fun() {
+
+        }
 
 //        var f = {}
 //        f = {
@@ -66,7 +68,6 @@ class IssueChatActivity : AppCompatActivity() {
 //            ))
 //        }
 //
-//        val ts = User("Support", UserType.SUPPORT)
 //        recycleAdapter.update(
 //            mutableListOf(
 //            Message(User.current, "text", "time"),
@@ -110,6 +111,6 @@ class IssueChatActivity : AppCompatActivity() {
             }
         }
 
-        recycleAdapter.scrollDown()
+//        recycleAdapter.scrollDown()
     }
 }

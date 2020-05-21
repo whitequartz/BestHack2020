@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">BestHack</string>
     <string name="issues">Заявки</string>
+    <string name="your_message">Введите сообщение</string>
 </resources>
