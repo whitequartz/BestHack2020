@@ -33,7 +33,7 @@ class RegisterActivity : AppCompatActivity()   {
         }
 
         buttonLogIn.setOnClickListener {
-            startActivity(intentFor<SignInActivity>().newTask().clearTask())
+            startActivity(intentFor<LoginActivity>().newTask().clearTask())
         }
     }
 }
