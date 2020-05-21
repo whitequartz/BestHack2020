@@ -27,18 +27,29 @@ class IssueChatActivity : AppCompatActivity() {
             onBackPressed()
         }
 
+        val closeIssue = fun() {
+            //TODO close issue DB
+        }
+
+        delete.setOnClickListener {
+            closeIssue()
+            onBackPressed()
+        }
+
 
         val ts = User("Support", UserType.SUPPORT)
         val bot = Bot(ts, User.current, recycleAdapter) {
-            bottom.visibility = VISIBLE
-            TransitionManager.beginDelayedTransition(root)
+            recycleView.postDelayed({
+                bottom.visibility = VISIBLE
+                TransitionManager.beginDelayedTransition(root)
 
-            send.setOnClickListener {
-                recycleAdapter.add(arrayListOf(
-                    Message(User.current, editText_message.text.toString(), "${CalFormatter.datef(Calendar.getInstance())} ${CalFormatter.timef(Calendar.getInstance())}")
-                ))
-                editText_message.text.clear()
-            }
+                send.setOnClickListener {
+                    recycleAdapter.add(arrayListOf(
+                        Message(User.current, editText_message.text.toString(), "${CalFormatter.datef(Calendar.getInstance())} ${CalFormatter.timef(Calendar.getInstance())}")
+                    ))
+                    editText_message.text.clear()
+                }
+            }, 1000)
         }
         recycleAdapter.add(Message.selectMessages(recycleAdapter, arrayListOf(
             bot.getMessage("FAQ"),
