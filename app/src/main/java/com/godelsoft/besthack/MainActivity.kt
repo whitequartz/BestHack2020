@@ -1,29 +1,15 @@
 package com.godelsoft.besthack
 
-import android.content.Intent
 import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.provider.AlarmClock.EXTRA_MESSAGE
-import kotlinx.android.synthetic.main.activity_main.*
-import java.io.*
-import java.net.InetAddress
-import java.net.Socket
-import java.util.*
-
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.godelsoft.besthack.recycleViewAdapters.IssueAdapter
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.activity_register.*
-import org.jetbrains.anko.clearTask
-import org.jetbrains.anko.intentFor
-import org.jetbrains.anko.newTask
 import org.jetbrains.anko.startActivity
-import org.json.JSONArray
-import java.lang.Exception
 
 class MainActivity : AppCompatActivity() {
     private lateinit var recycleAdapter: IssueAdapter
@@ -31,11 +17,6 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        button_secret.setOnClickListener {
-//            startActivity<SecretActivity>()
-            startActivity<IssueChatActivity>()
-        }
 
         mainContext = this
         main = this
@@ -107,7 +88,10 @@ class MainActivity : AppCompatActivity() {
                 floatingActionButton.visibility = GONE
             }
         }
-//        startActivity<IssueChatActivity>()
+
+        floatingActionButton.setOnClickListener {
+            startActivity<IssueChatActivity>()
+        }
     }
 
     companion object {
