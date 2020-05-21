@@ -27,7 +27,9 @@ class IssueChatActivity : AppCompatActivity() {
             onBackPressed()
         }
 
-        val connectToSupport = fun() {
+
+        val ts = User("Support", UserType.SUPPORT)
+        val bot = Bot(ts, User.current, recycleAdapter) {
             bottom.visibility = VISIBLE
             TransitionManager.beginDelayedTransition(root)
 
@@ -38,10 +40,6 @@ class IssueChatActivity : AppCompatActivity() {
                 editText_message.text.clear()
             }
         }
-
-
-        val ts = User("Support", UserType.SUPPORT)
-        val bot = Bot(ts, User.current, recycleAdapter)
         recycleAdapter.add(Message.selectMessages(recycleAdapter, arrayListOf(
             bot.getMessage("FAQ"),
             bot.getMessage("request"),

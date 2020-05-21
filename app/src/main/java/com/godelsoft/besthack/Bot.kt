@@ -4,11 +4,11 @@ import com.godelsoft.besthack.recycleViewAdapters.MessageAdapter
 import java.util.*
 import kotlin.collections.ArrayList
 
-data class Bot(val botSender: User, val sender: User, val recycleAdapter: MessageAdapter) {
+data class Bot(val botSender: User, val sender: User, val recycleAdapter: MessageAdapter, val connectToSupport: (user: User) -> Unit = {}) {
     private val dialogStatus =  hashMapOf<String, Message>()
     private val currentStatus: String = "/"
 
-    fun addMessage(hashname: String, text: String, answer: String?, array: Array<String>) {
+    fun addMessage(hashname: String, text: String, answer: String?, array: Array<String>, f: (user: User) -> Unit = {}) {
         dialogStatus[hashname] = Message(sender, text, "") {
             if (answer == null) {
                 val messages = ArrayList<Message>()
@@ -28,6 +28,7 @@ data class Bot(val botSender: User, val sender: User, val recycleAdapter: Messag
                         addAll(Message.selectMessages(recycleAdapter, messages))
                     })
             }
+            f(it)
         }
     }
 
@@ -45,6 +46,6 @@ data class Bot(val botSender: User, val sender: User, val recycleAdapter: Messag
         addMessage("q2", "djghjc2", "Ans2", arrayOf("back"))
         addMessage("FAQ", "Популярные вопросы", "Выберете категорию", arrayOf("q1", "q2"))
         addMessage("request", "Создать заявку", "Выберете тип заявки", arrayOf("q1", "q2"))
-        addMessage("call support", "Соединить с оператором", "", arrayOf("q1", "q2"))
+        addMessage("call support", "Соединить с оператором", "Соединяю с оператором...", arrayOf(), connectToSupport)
     }
 }
