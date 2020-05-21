@@ -21,9 +21,9 @@ class IssueChatActivity : AppCompatActivity() {
         val ts = User("Support", UserType.SUPPORT)
         val bot = Bot(ts, User.current, recycleAdapter)
         recycleAdapter.add(Message.selectMessages(recycleAdapter, arrayListOf(
-            bot.getMessage("FAQ"),
-            bot.getMessage("request"),
-            bot.getMessage("support"))))
+            bot.getMessage("Популярные вопросы"),
+            bot.getMessage("Подать заявку"),
+            bot.getMessage("Соединить с оператором"))))
 
 //        recycleAdapter.add(Message.selectMessages(recycleAdapter,
 //            Message(User.current, "1", "sss") {

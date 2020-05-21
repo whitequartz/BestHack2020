@@ -35,7 +35,7 @@ data class Bot(val botSender: User, val sender: User, val recycleAdapter: Messag
         addMessage("back", "Возвращаемся с начальному экрану", arrayOf("FAQ", "request", "support"))
         addMessage("q1", "Ans1", arrayOf("back"))
         addMessage("q2", "Ans2", arrayOf("back"))
-        addMessage("FAQ", "Выберете категорию", arrayOf("q1", "q2"))
+        addMessage("Частые вопросы", "Выберете категорию", arrayOf("q1", "q2"))
         addMessage("request", "Выберете категорию", arrayOf("q1", "q2"))
         addMessage("support", "Выберете категорию", arrayOf("q1", "q2"))
     }
