@@ -1,7 +1,6 @@
 package com.godelsoft.besthack
 
 import android.os.Bundle
-import android.provider.SyncStateContract
 import androidx.appcompat.app.AppCompatActivity
 //import com.sun.xml.internal.ws.streaming.XMLStreamWriterUtil.getOutputStream
 //import jdk.nashorn.internal.runtime.ScriptingFunctions.readLine
@@ -17,7 +16,7 @@ class SecretActivity : AppCompatActivity() {
         setContentView(R.layout.activity_secret)
 
         button_test_1.setOnClickListener {
-            val test = Test { res ->
+            val test = tcpTequest(response_testbox.text.toString()) { res ->
                 runOnUiThread {
                     response_testbox.setText(res)
                 }
@@ -27,38 +26,6 @@ class SecretActivity : AppCompatActivity() {
 
         button_test_2.setOnClickListener {
             response_testbox.setText("2222222 2222 2222222 22222222")
-        }
-    }
-}
-
-class Test(private val callback: (String) -> Unit) : Runnable {
-    private var port = 8081
-    private var address = "10.0.2.2"
-
-    override fun run() {
-        try {
-            val addr = InetAddress.getByName(address)
-
-            println("Поключаемся к $addr:$port...")
-            val socket = Socket(addr, port)
-
-            val `in` = BufferedReader(InputStreamReader(socket.getInputStream()))
-            val out = PrintWriter(OutputStreamWriter(socket.getOutputStream(), "UTF-8"))
-
-            print("[Запрос]:")
-            var line = "AlPHa\n"
-
-            out.println(line)
-            out.flush()
-
-            line = `in`.readLine()
-            println("[Ответ]:$line")
-            callback(line)
-
-            socket.close()
-        } catch (x: IOException) {
-            println("Ошибка ввода/вывода")
-            x.printStackTrace()
         }
     }
 }
