@@ -8,25 +8,25 @@ data class Bot(val botSender: User, val sender: User, val recycleAdapter: Messag
     private val dialogStatus =  hashMapOf<String, Message>()
     private val currentStatus: String = "/"
 
-    fun addMessage(hashname: String, text: String, answer: String, array: Array<String>) {
-        dialogStatus[hashname] = Message(sender, text, "${CalFormatter.datef(
-            Calendar.getInstance())} ${CalFormatter.timef(Calendar.getInstance())}") {
-            if (answer == "") {
+    fun addMessage(hashname: String, text: String, answer: String?, array: Array<String>) {
+        dialogStatus[hashname] = Message(sender, text, "") {
+            if (answer == null) {
                 val messages = ArrayList<Message>()
                 for (elem in array) {
-                    dialogStatus[elem]?.let { messages.add(getMessage(elem)) }
+                    messages.add(getMessage(elem))
                 }
-                recycleAdapter.add(messages)
+                recycleAdapter.add(Message.selectMessages(recycleAdapter, messages))
             } else {
-                recycleAdapter.add(mutableListOf(Message(botSender, answer, "${CalFormatter.datef(
-                    Calendar.getInstance())} ${CalFormatter.timef(Calendar.getInstance())}")).apply {
-                    val messages = ArrayList<Message>()
-                    for (elem in array) {
-                        dialogStatus[elem]?.let { messages.add(getMessage(elem)) }
-                    }
-                    addAll(Message.selectMessages(recycleAdapter, messages
-                    ))
-                })
+                recycleAdapter.add(
+                    mutableListOf(
+                        Message(botSender, answer, "${CalFormatter.datef(Calendar.getInstance())} ${CalFormatter.timef(Calendar.getInstance())}")
+                    ).apply {
+                        val messages = ArrayList<Message>()
+                        for (elem in array) {
+                            messages.add(getMessage(elem))
+                        }
+                        addAll(Message.selectMessages(recycleAdapter, messages))
+                    })
             }
         }
     }
@@ -40,7 +40,7 @@ data class Bot(val botSender: User, val sender: User, val recycleAdapter: Messag
     }
 
     init {
-        addMessage("back", "Назад", "", arrayOf("FAQ", "request", "call support"))
+        addMessage("back", "Назад", null, arrayOf("FAQ", "request", "call support"))
         addMessage("q1", "вопрос1", "Ans1", arrayOf("back"))
         addMessage("q2", "djghjc2", "Ans2", arrayOf("back"))
         addMessage("FAQ", "Популярные вопросы", "Выберете категорию", arrayOf("q1", "q2"))

@@ -8,9 +8,7 @@ import android.view.View.VISIBLE
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.godelsoft.besthack.recycleViewAdapters.MessageAdapter
 import kotlinx.android.synthetic.main.activity_issue_chat.*
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_main.recycleView
-import org.jetbrains.anko.startActivity
 import java.util.*
 
 class IssueChatActivity : AppCompatActivity() {
