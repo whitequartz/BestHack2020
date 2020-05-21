@@ -34,7 +34,7 @@ class MessageAdapter(
             text.text = message.text
             time.text = message.time
 
-            itemView.setOnClickListener(null)
+            itemView.message_root.setOnClickListener(null)
 
             if (message.clickF == null) {
                 itemView.message_root.setCardBackgroundColor(ContextCompat.getColor(context, R.color.colorIcons))

@@ -2,7 +2,6 @@ package com.godelsoft.besthack
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.godelsoft.besthack.recycleViewAdapters.MessageAdapter
 import kotlinx.android.synthetic.main.activity_main.*
