@@ -47,7 +47,7 @@ class IssueChatActivity : AppCompatActivity() {
             ))
         }
 
-        val ts = User("Support", UserType.SUPPORT)
+        val ts = User(0, "Support", UserType.SUPPORT)
         recycleAdapter.update(
             mutableListOf(
             Message(User.current, "text", "time"),

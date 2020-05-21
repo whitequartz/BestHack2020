@@ -17,7 +17,13 @@ import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.godelsoft.besthack.recycleViewAdapters.IssueAdapter
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_register.*
+import org.jetbrains.anko.clearTask
+import org.jetbrains.anko.intentFor
+import org.jetbrains.anko.newTask
 import org.jetbrains.anko.startActivity
+import org.json.JSONArray
+import java.lang.Exception
 
 class MainActivity : AppCompatActivity() {
     private lateinit var recycleAdapter: IssueAdapter
@@ -66,20 +72,25 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
-        recycleAdapter.update(listOf(
-                Issue("header", "20!8", "desc", Chat()),
-                Issue("header1", "20!8", "desc", Chat()),
-                Issue("header2", "20!8", "desc", Chat()),
-                Issue("header", "20!8", "desc", Chat()),
-                Issue("header1", "20!8", "desc", Chat()),
-                Issue("header2", "20!8", "desc", Chat()),
-                Issue("header", "20!8", "desc", Chat()),
-                Issue("header1", "20!8", "desc", Chat()),
-                Issue("header2", "20!8", "desc", Chat()),
-                Issue("header", "20!8", "desc", Chat()),
-                Issue("header1", "20!8", "desc", Chat()),
-                Issue("header2", "20!8", "desc", Chat())
-        ).sortedBy { it.header })
+        try {
+            val req = "GET_CUR_ISSUES ${User.current.ID}"
+            val test = TcpRequest(req) { res ->
+                if (res?.succ == true) {
+                    val issues = JSONArray(res.data).
+                        let { 0.until(it.length()).map { i -> it.optJSONObject(i) } }.
+                        map { IssueJSON(it.toString()) }.
+                        map { Issue(it.id, it.title, it.time.toString(), it.description, Chat()) }
+                    recycleAdapter.update(issues)
+                } else {
+                    println("Insuccess current issues loading")
+                    // TODO: error?
+                }
+            }
+            Thread(test).start()
+        } catch (e: Exception) {
+            println("connection error 113244132")
+            // TODO: connection error
+        }
 
         when(User.current.type) {
             UserType.WORKER -> {
@@ -95,7 +106,7 @@ class MainActivity : AppCompatActivity() {
                 floatingActionButton.visibility = GONE
             }
         }
-        startActivity<IssueChatActivity>()
+//        startActivity<IssueChatActivity>()
     }
 
     companion object {

@@ -27,6 +27,7 @@ class TcpRequest(private val data : String, private val callback: (Response?) ->
             val outStream = PrintWriter(OutputStreamWriter(socket.getOutputStream(), "UTF-8"))
 
             print("[REQUEST]:")
+            println(data)
             outStream.println(data)
             outStream.flush()
 

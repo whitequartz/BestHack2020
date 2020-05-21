@@ -9,6 +9,7 @@ import kotlinx.android.synthetic.main.activity_sign_in.*
 import org.jetbrains.anko.clearTask
 import org.jetbrains.anko.intentFor
 import org.jetbrains.anko.newTask
+import org.json.JSONArray
 import java.lang.Exception
 
 class RegisterActivity : AppCompatActivity()   {
@@ -28,8 +29,8 @@ class RegisterActivity : AppCompatActivity()   {
             }
             else {
                 try {
-                    val data = "REGISTER ${editTextTextEmailAddress.text} ${editTextTextPassword.text} "
-                    val test = TcpRequest(data) { res ->
+                    val req = "REGISTER ${editTextTextEmailAddress.text} ${editTextTextPassword.text} "
+                    val test = TcpRequest(req) { res ->
                         if (res?.succ == true) {
                             runOnUiThread {
                                 startActivity(intentFor<MainActivity>().newTask().clearTask())
