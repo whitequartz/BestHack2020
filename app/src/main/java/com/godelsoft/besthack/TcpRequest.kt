@@ -9,20 +9,14 @@ import java.net.Socket
 class Response(json: String) : JSONObject(json) {
     val succ: Boolean? = this.optBoolean("Succ")
     val data: String? = this.optString("Data")
-//    val data = this.optJSONArray("data")
-//        ?.let { 0.until(it.length()).map { i -> it.optJSONObject(i) } }
-//        ?.map { Foo(it.toString()) }
 }
 
 class TcpRequest(private val data : String, private val callback: (Response?) -> Unit) : Runnable {
-    private var address = "10.0.2.2"
-    private var port = 8081
-
     override fun run() {
         try {
-            val addr = InetAddress.getByName(address)
-            println("Trying to connect: $addr:$port...")
-            val socket = Socket(addr, port)
+            val addr = InetAddress.getByName(GlobalDataLoader.serverIP)
+            println("Trying to connect: $addr:${GlobalDataLoader.serverPort}...")
+            val socket = Socket(addr, GlobalDataLoader.serverPort)
             val inStream = BufferedReader(InputStreamReader(socket.getInputStream()))
             val outStream = PrintWriter(OutputStreamWriter(socket.getOutputStream(), "UTF-8"))
 
