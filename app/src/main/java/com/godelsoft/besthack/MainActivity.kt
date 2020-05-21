@@ -33,7 +33,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         button_secret.setOnClickListener {
-            startActivity(Intent(this, SecretActivity::class.java))
+//            startActivity<SecretActivity>()
+            startActivity<IssueChatActivity>()
         }
 
         mainContext = this
