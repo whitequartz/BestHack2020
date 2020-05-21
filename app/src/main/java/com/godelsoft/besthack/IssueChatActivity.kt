@@ -39,7 +39,9 @@ class IssueChatActivity : AppCompatActivity() {
 //            Thread(t).start()
         }
 
-        val connectToSupport = fun() {
+
+        val ts = User("Support", UserType.SUPPORT)
+        val bot = Bot(ts, User.current, recycleAdapter) {
             bottom.visibility = VISIBLE
             TransitionManager.beginDelayedTransition(root)
 
