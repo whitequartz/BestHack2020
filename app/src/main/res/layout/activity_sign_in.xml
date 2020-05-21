@@ -33,12 +33,13 @@
         android:id="@+id/textPassword"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:ems="10"
         android:hint="пароль"
         android:inputType="textPassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="286dp" />
+        app:layout_constraintTop_toBottomOf="@+id/textEmailAddress" />
 
     <Button
         android:id="@+id/buttonLogin"
