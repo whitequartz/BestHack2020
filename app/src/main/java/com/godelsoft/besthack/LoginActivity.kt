@@ -6,7 +6,7 @@ import kotlinx.android.synthetic.main.activity_sign_in.*
 import org.jetbrains.anko.*
 import java.lang.Exception
 
-class SignInActivity : AppCompatActivity()  {
+class LoginActivity : AppCompatActivity()  {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
