@@ -13,7 +13,7 @@ class SplashActivity : AppCompatActivity() {
         if (sighedIn)
             startActivity<MainActivity>()
         else
-            startActivity<SignInActivity>()
+            startActivity<LoginActivity>()
 
         finish()
     }

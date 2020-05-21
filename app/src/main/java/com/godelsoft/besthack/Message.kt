@@ -1,11 +1,6 @@
 package com.godelsoft.besthack
 
-import android.content.Context
-import android.view.LayoutInflater
-import android.view.View
-import androidx.core.content.ContextCompat.getColor
 import com.godelsoft.besthack.recycleViewAdapters.MessageAdapter
-import kotlinx.android.synthetic.main.card_message.view.*
 
 class Message(
     val sender: User,
