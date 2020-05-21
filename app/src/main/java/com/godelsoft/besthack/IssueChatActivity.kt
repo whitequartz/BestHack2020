@@ -40,7 +40,7 @@ class IssueChatActivity : AppCompatActivity() {
         }
 
 
-        val ts = User("Support", UserType.SUPPORT)
+        val ts = User(0, "Support", UserType.SUPPORT)
         val bot = Bot(ts, User.current, recycleAdapter) {
             bottom.visibility = VISIBLE
             TransitionManager.beginDelayedTransition(root)
@@ -53,8 +53,6 @@ class IssueChatActivity : AppCompatActivity() {
             }
         }
 
-        val ts = User(0, "Support", UserType.SUPPORT)
-        val bot = Bot(ts, User.current, recycleAdapter)
         recycleAdapter.add(Message.selectMessages(recycleAdapter, arrayListOf(
             bot.getMessage("FAQ"),
             bot.getMessage("request"),
