@@ -3,4 +3,5 @@
     <string name="secret_test_1_name">Test 1</string>
     <string name="secret_test_2_name">Test 2</string>
     <string name="secret_test_launch_button_text">SECRET</string>
+    <string name="issues">Заявки</string>
 </resources>
