@@ -1,27 +1,29 @@
 package com.godelsoft.besthack
 
+import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.CalendarView
-import android.widget.TextView
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import androidx.constraintlayout.motion.widget.MotionLayout
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import com.godelsoft.besthack.recycleViewAdapters.IssueAdapter
 import kotlinx.android.synthetic.main.activity_main.*
-import java.util.*
+import org.jetbrains.anko.startActivity
 
 class MainActivity : AppCompatActivity() {
+    private lateinit var recycleAdapter: IssueAdapter
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val recycleView = findViewById<RecyclerView>(R.id.recycleView)
-        calendarView = findViewById(R.id.calendarView)
-        val currentDate = findViewById<TextView>(R.id.currentDate)
+        mainContext = this
+        main = this
 
         recycleView.layoutManager = LinearLayoutManager(this)
-        recycleAdapter = IssueAdapter(this)
+        recycleAdapter =
+            IssueAdapter(this)
         recycleView.adapter = recycleAdapter
 
         motionLayout.setTransitionListener(object : MotionLayout.TransitionListener {
@@ -52,14 +54,6 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
-//        recycleView.setScrollEnable(false)
-
-        val c: Calendar = Calendar.getInstance()
-
-        var location = Calendar.getAvailableLocales()
-
-        currentDate.text = "${c.get(Calendar.DAY_OF_MONTH)} ${c.getDisplayName(Calendar.MONTH, 2, Locale("en", "RU"))} ${c.get(Calendar.YEAR)}"
-
         recycleAdapter.update(listOf(
                 Issue("header", "20!8", "desc", Chat()),
                 Issue("header1", "20!8", "desc", Chat()),
@@ -74,9 +68,26 @@ class MainActivity : AppCompatActivity() {
                 Issue("header1", "20!8", "desc", Chat()),
                 Issue("header2", "20!8", "desc", Chat())
         ).sortedBy { it.header })
-//        recycleAdapter.update(EventsProvider.getAllAvailableEvents())
+
+        when(User.current.type) {
+            UserType.WORKER -> {
+                floatingActionButton.visibility = VISIBLE
+                floatingActionButton.setOnClickListener {
+                    Issue.startCreation()
+                }
+            }
+            UserType.SUPPORT -> {
+                floatingActionButton.visibility = GONE
+            }
+            UserType.TEAM_LEAD -> {
+                floatingActionButton.visibility = GONE
+            }
+        }
+        startActivity<IssueChatActivity>()
     }
 
-    lateinit var recycleAdapter: IssueAdapter
-    private lateinit var calendarView: ConstraintLayout
+    companion object {
+        lateinit var mainContext: Context
+        lateinit var main: MainActivity
+    }
 }

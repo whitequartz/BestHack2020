@@ -5,7 +5,7 @@
 
     <ConstraintSet android:id="@+id/start">
         <Constraint
-            android:id="@+id/calendarView"
+            android:id="@+id/statsConLay"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
@@ -21,14 +21,14 @@
             android:layout_height="0dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/calendarView"
+            app:layout_constraintTop_toBottomOf="@id/statsConLay"
             app:layout_constraintBottom_toBottomOf="parent">
         </Constraint>
     </ConstraintSet>
 
     <ConstraintSet android:id="@+id/end">
         <Constraint
-            android:id="@+id/calendarView"
+            android:id="@+id/statsConLay"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
@@ -62,7 +62,7 @@
             app:touchAnchorId="@id/conLay" />
         <KeyFrameSet >
             <KeyPosition
-                app:motionTarget="@+id/calendarView"
+                app:motionTarget="@+id/statsConLay"
                 app:percentX="0.01"
                 app:percentY="0.01" />
         </KeyFrameSet>

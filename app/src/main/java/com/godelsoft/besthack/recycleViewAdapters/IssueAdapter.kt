@@ -1,21 +1,22 @@
-package com.godelsoft.besthack
+package com.godelsoft.besthack.recycleViewAdapters
 
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.core.content.ContextCompat.*
 import androidx.recyclerview.widget.RecyclerView
+import com.godelsoft.besthack.Issue
+import com.godelsoft.besthack.R
 
 
 class IssueAdapter(
     private val context: Context
-) : RecyclerView.Adapter<IssueAdapter.EventViewHolder>() {
+) : RecyclerView.Adapter<IssueAdapter.IssueViewHolder>() {
 
     private var issueList = mutableListOf<Issue>()
 
-    inner class EventViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class IssueViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private var header: TextView = itemView.findViewById(R.id.header)
         private var description: TextView = itemView.findViewById(R.id.description)
         private var time: TextView = itemView.findViewById(R.id.time)
@@ -35,8 +36,8 @@ class IssueAdapter(
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EventViewHolder {
-        return EventViewHolder(
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): IssueViewHolder {
+        return IssueViewHolder(
             LayoutInflater
                 .from(context)
                 .inflate(R.layout.card_issue, parent, false)
@@ -47,7 +48,7 @@ class IssueAdapter(
         return issueList.count()
     }
 
-    override fun onBindViewHolder(holder: EventViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: IssueViewHolder, position: Int) {
         issueList[position].let { holder.bind(it) }
     }
 
