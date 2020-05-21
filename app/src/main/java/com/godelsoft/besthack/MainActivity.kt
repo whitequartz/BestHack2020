@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.widget.CalendarView
 import android.widget.TextView
 import androidx.constraintlayout.motion.widget.MotionLayout
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.activity_main.*
@@ -16,7 +17,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         val recycleView = findViewById<RecyclerView>(R.id.recycleView)
-        calendarView = findViewById<CalendarView>(R.id.calendarView)
+        calendarView = findViewById(R.id.calendarView)
         val currentDate = findViewById<TextView>(R.id.currentDate)
 
         recycleView.layoutManager = LinearLayoutManager(this)
@@ -54,18 +55,10 @@ class MainActivity : AppCompatActivity() {
 //        recycleView.setScrollEnable(false)
 
         val c: Calendar = Calendar.getInstance()
-        c.timeInMillis = calendarView.date
 
         var location = Calendar.getAvailableLocales()
 
         currentDate.text = "${c.get(Calendar.DAY_OF_MONTH)} ${c.getDisplayName(Calendar.MONTH, 2, Locale("en", "RU"))} ${c.get(Calendar.YEAR)}"
-
-        calendarView.setOnDateChangeListener { _, year, month, dayOfMonth ->
-            c.set(Calendar.DAY_OF_MONTH, dayOfMonth)
-            c.set(Calendar.MONTH, month)
-            c.set(Calendar.YEAR, year)
-            currentDate.text = "$dayOfMonth ${c.getDisplayName(Calendar.MONTH, 2, Locale("en", "RU"))} $year"
-        }
 
         recycleAdapter.update(listOf(
                 Issue("header", "20!8", "desc", Chat()),
@@ -85,5 +78,5 @@ class MainActivity : AppCompatActivity() {
     }
 
     lateinit var recycleAdapter: IssueAdapter
-    private lateinit var calendarView: CalendarView
+    private lateinit var calendarView: ConstraintLayout
 }
