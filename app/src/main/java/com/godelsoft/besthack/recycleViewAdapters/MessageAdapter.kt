@@ -71,7 +71,7 @@ class MessageAdapter(
                 itemView.time.visibility = GONE
             }
 
-            if (message.sender == User.current) {
+            if (message.sender.ID == User.current.ID) {
                 itemView.message_root.apply {
                     val lParams = FrameLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT, Gravity.END)
                     this.layoutParams = lParams

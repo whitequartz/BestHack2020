@@ -10,7 +10,7 @@ class User(
 ) {
     var devices: ArrayList<Device?> = arrayListOf()
     companion object {
-        private val userTest = User(0, "testName", UserType.WORKER).apply {
+        val userTest = User(0, "testName", UserType.WORKER).apply {
             devices.addAll(arrayListOf(
                 Device(DeviceType.SYSTEM, "ASUS ROG 22-81", 74000, Calendar.getInstance().apply { set(2019, 10, 27) }, 700.daysToMillis()),
                 Device(DeviceType.MONITOR, "AOC 23\"", 14000, Calendar.getInstance().apply { set(2019, 10, 27) }, 264.daysToMillis()),
@@ -24,7 +24,7 @@ class User(
                 Device(DeviceType.WIFI, "Xiaomi A8", 74000, Calendar.getInstance().apply { set(2019, 10, 27) }, 900.daysToMillis())
             ))
         }
-        var current: User = User(0, "", UserType.WORKER)
+        lateinit var current: User
 //        get() {
 //            // TODO user from DB
 //            // User data setting after authorization

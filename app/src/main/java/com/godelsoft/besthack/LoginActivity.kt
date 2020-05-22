@@ -29,7 +29,9 @@ class LoginActivity : AppCompatActivity()  {
             if (token != "") {
                 val req = TcpRequest("CHECK_TOKEN $token") { res ->
                     if (res?.succ == true) {
-                        User.current = User((res.data ?: "0").toLong(), "NAME", UserType.WORKER) // TODO
+                        User.current = User((res.data ?: "0").toLong(), "NAME", UserType.WORKER).apply {
+                            devices.addAll(User.userTest.devices)
+                        } // TODO
                         startActivity(intentFor<MainActivity>().newTask().clearTask())
                     }
                 }
@@ -42,7 +44,9 @@ class LoginActivity : AppCompatActivity()  {
                 val req = TcpRequest("AUTH ${textEmailAddress.text} ${textPassword.text} ") { res ->
                     if (res?.succ == true) {
                         val authData = JSONObject(res.data ?: "")
-                        User.current = User(authData.optLong("ID"), "NAME", UserType.WORKER) // TODO
+                        User.current = User(authData.optLong("ID"), "NAME", UserType.WORKER).apply {
+                            devices.addAll(User.userTest.devices)
+                        } // TODO
                         val editor = mSettings.edit()
                         editor.putString(GlobalDataLoader.APP_TOKEN, authData.optString("Token"))
                         editor.apply()
