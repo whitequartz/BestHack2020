@@ -89,10 +89,6 @@ class IssueChatActivity : AppCompatActivity() {
                                     )
                                 )
                             )
-                            // Moved to Message adapter
-                            val jsonStr = """{"Sender":${User.current.ID},"Dest":${1},"Data":"${editText_message.text}"}"""
-                            val t = TcpRequest("SEND_MSG $jsonStr") {}
-                            Thread(t).start()
                             editText_message.text.clear()
                         }
                     }, 1000)

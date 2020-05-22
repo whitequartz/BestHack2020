@@ -40,9 +40,9 @@ class MessageAdapter(
 
             if (message.clickF == null) {
                 // send message to server
-//                val jsonStr = """{"Sender:${senderId},"Dest":${1},"Data":"${text.text}"}"""
-//                val t = TcpRequest("SEND_MSG $jsonStr") {}
-//                Thread(t).start()
+                val jsonStr = """{"Sender":${senderId},"Dest":${1},"Data":"${text.text}"}"""
+                val t = TcpRequest("SEND_MSG $jsonStr") {}
+                Thread(t).start()
 
                 itemView.message_root.setCardBackgroundColor(ContextCompat.getColor(context, R.color.colorIcons))
                 itemView.text.setTextColor(
@@ -55,9 +55,6 @@ class MessageAdapter(
             } else {
                 message.clickF.let {
                     itemView.message_root.setOnClickListener {
-                        val jsonStr = """{"Sender":${senderId},"Dest":${1},"Data":"${text.text}"}"""
-                        val t = TcpRequest("SEND_MSG $jsonStr") {}
-                        Thread(t).start()
                         it(User.current)
                     }
                 }
