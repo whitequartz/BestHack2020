@@ -9,6 +9,8 @@ class User(
     val type: UserType
 ) {
     var devices: ArrayList<Device?> = arrayListOf()
+
+
     companion object {
         val userTest = User(0, "testName", UserType.WORKER).apply {
             devices.addAll(arrayListOf(
