@@ -48,7 +48,7 @@ class IssueChatActivity : AppCompatActivity() {
             onBackPressed()
         }
 
-        val ts = User(0, "Support", UserType.SUPPORT)
+        val ts = User(-1, "Support", UserType.SUPPORT)
         val bot = Bot(ts, User.current, recycleAdapter) {
             bottom.visibility = VISIBLE
             TransitionManager.beginDelayedTransition(root)

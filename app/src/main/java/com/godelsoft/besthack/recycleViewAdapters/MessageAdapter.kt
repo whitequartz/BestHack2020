@@ -15,6 +15,7 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.godelsoft.besthack.Message
 import com.godelsoft.besthack.R
+import com.godelsoft.besthack.TcpRequest
 import com.godelsoft.besthack.User
 import kotlinx.android.synthetic.main.card_message.view.*
 
@@ -32,10 +33,17 @@ class MessageAdapter(
         fun bind(message: Message) {
             text.text = message.text
             time.text = message.time
+            var senderId = message.sender.ID
 
             itemView.message_root.setOnClickListener(null)
 
             if (message.clickF == null) {
+                // send message to server
+                val jsonStr = """{"Sender:${senderId},"Dest":${1},"Data":"${text.text}"}"""
+                val t = TcpRequest("SEND_MSG $jsonStr") {}
+                Thread(t).start()
+                print(jsonStr)
+                
                 itemView.message_root.setCardBackgroundColor(ContextCompat.getColor(context, R.color.colorIcons))
                 itemView.text.setTextColor(
                     ContextCompat.getColor(
