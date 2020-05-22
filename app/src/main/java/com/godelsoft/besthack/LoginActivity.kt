@@ -22,6 +22,7 @@ class LoginActivity : AppCompatActivity()  {
         val mSettings =
             getSharedPreferences(GlobalDataLoader.APP_PREFERENCES, Context.MODE_PRIVATE)
 
+
         if (mSettings.contains(GlobalDataLoader.APP_TOKEN)) {
             Log.d("AUTH", "Found token")
             val token = mSettings.getString(GlobalDataLoader.APP_TOKEN, "") ?: ""
