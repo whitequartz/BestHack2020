@@ -6,6 +6,7 @@ import android.graphics.ColorFilter
 import android.graphics.PorterDuff
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import androidx.constraintlayout.motion.widget.MotionLayout
@@ -155,6 +156,11 @@ class MainActivity : AppCompatActivity() {
 
         floatingActionButton.setOnClickListener {
             startActivity<IssueChatActivity>()
+        }
+
+        account.setOnClickListener {
+            print("\n\n\n11111111111111111111111")
+            startActivity<MyAccountActivity>()
         }
     }
 
