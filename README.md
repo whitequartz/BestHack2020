@@ -1,7 +1,7 @@
 # BestHack2020 GodelSoft
 
 Проект разработан в рамках участия в "Best Hack 2020".
-Вы можете скачать apk файл данного приложения <a href="тут должна быть ссылка">здесь</a>. // TODO
+Вы можете скачать apk файл данного приложения <a href="http://whitequartz.ml/besthack/godelsoft.apk">здесь</a>.
 
 
 
