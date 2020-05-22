@@ -29,7 +29,7 @@
             android:layout_width="8dp"
             android:layout_height="0dp"
             android:layout_marginStart="16dp"
-            android:background="@color/colorEventInactive"
+            android:background="@color/colorEventGlobal"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

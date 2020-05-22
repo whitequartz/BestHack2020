@@ -7,7 +7,7 @@ class Message(
     val sender: User,
     val text: String,
     val time: String,
-    val clickF: ((user: User) -> Unit)? = null
+    var clickF: ((user: User) -> Unit)? = null
 ) {
     companion object {
         fun selectMessages(adapter: MessageAdapter, messages:  ArrayList<Message>): List<Message> {

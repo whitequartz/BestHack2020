@@ -11,10 +11,12 @@ import com.godelsoft.besthack.Device
 import com.godelsoft.besthack.Issue
 import com.godelsoft.besthack.R
 import java.util.*
+import kotlin.math.cos
 
 
 class DeviceAdapter(
-    private val context: Context
+    private val context: Context,
+    private val callBack: (d: Device) -> Unit
 ) : RecyclerView.Adapter<DeviceAdapter.DeviceViewHolder>() {
 
     private var deviceList = mutableListOf<Device>()
@@ -22,24 +24,24 @@ class DeviceAdapter(
     inner class DeviceViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private var header: TextView = itemView.findViewById(R.id.header)
         private var description: TextView = itemView.findViewById(R.id.description)
-        private var time: TextView = itemView.findViewById(R.id.time)
+        private var type: TextView = itemView.findViewById(R.id.type)
+        private var cost: TextView = itemView.findViewById(R.id.cost)
 
         fun bind(device: Device) {
-            header.text = device.type.toString()
-            description.text = device.model
-//            when (issue.event.category) {
-//                EventCategory.PERSONAL ->
-//                    categoryColor.setBackgroundColor(getColor(context, R.color.colorEventPersonal))
-//                EventCategory.GLOBAL ->
-//                    categoryColor.setBackgroundColor(getColor(context, R.color.colorEventGlobal))
-//                EventCategory.LBG ->
-//                    categoryColor.setBackgroundColor(getColor(context, R.color.colorEventLGB))
-//            }
-            time.text = CalFormatter.datef(Calendar.getInstance().apply {
+            header.text = device.model
+            description.text = "Гарантия до: ${
+            CalFormatter.datef(Calendar.getInstance().apply {
                 set(Calendar.SECOND, device.buyTime.get(Calendar.SECOND))
                 add(Calendar.SECOND,
                     (device.validTime / 1000).toInt()
-            ) })
+                ) })}"
+
+            cost.text = "${device.cost}р"
+
+            type.text = device.type.toString()
+            itemView.setOnClickListener {
+                callBack(device)
+            }
         }
     }
 

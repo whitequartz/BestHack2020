@@ -27,14 +27,6 @@ class IssueAdapter(
         fun bind(issue: Issue) {
             header.text = "Заявка №${issue.ID + 1000L}"
             description.text = issue.description
-//            when (issue.event.category) {
-//                EventCategory.PERSONAL ->
-//                    categoryColor.setBackgroundColor(getColor(context, R.color.colorEventPersonal))
-//                EventCategory.GLOBAL ->
-//                    categoryColor.setBackgroundColor(getColor(context, R.color.colorEventGlobal))
-//                EventCategory.LBG ->
-//                    categoryColor.setBackgroundColor(getColor(context, R.color.colorEventLGB))
-//            }
 
             time.text = Date(issue.time.toLong() * 1000L).let { "${CalFormatter.datef(it)} ${CalFormatter.timef(it)}" }
             itemView.setOnClickListener {

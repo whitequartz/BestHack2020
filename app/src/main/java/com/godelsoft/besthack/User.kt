@@ -27,11 +27,6 @@ class User(
             ))
         }
         lateinit var current: User
-//        get() {
-//            // TODO user from DB
-//            // User data setting after authorization
-//            return userTest
-//        }
     }
 }
 

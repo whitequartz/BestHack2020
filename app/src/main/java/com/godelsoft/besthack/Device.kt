@@ -5,7 +5,7 @@ import java.lang.Integer.max
 import java.lang.Integer.min
 import java.util.*
 
-enum class DeviceType(private val displayName: String) {
+enum class DeviceType(val displayName: String) {
     SYSTEM("Системный блок"),
     MONITOR("Монитор"),
     KEYBOARD("Клавиатура"),

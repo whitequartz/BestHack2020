@@ -12,9 +12,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".EquipmentActivity"></activity>
+        <activity android:name=".DeviceActivity"></activity>
+        <activity android:name=".EquipmentActivity" />
         <activity android:name=".IssueChatActivity" />
-        <activity android:name=".SecretActivity"></activity>
+        <activity android:name=".SecretActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
