@@ -7,11 +7,12 @@ class User(
 ) {
     companion object {
         private val userTest = User(0, "testName", UserType.WORKER)
-        val current: User
-        get() {
-            //TODO user from DB
-            return userTest
-        }
+        var current: User = User(0, "", UserType.WORKER)
+//        get() {
+//            // TODO user from DB
+//            // User data setting after authorization
+//            return userTest
+//        }
     }
 }
 
