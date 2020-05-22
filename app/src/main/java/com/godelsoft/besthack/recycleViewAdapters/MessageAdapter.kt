@@ -17,6 +17,7 @@ import com.godelsoft.besthack.Message
 import com.godelsoft.besthack.R
 import com.godelsoft.besthack.TcpRequest
 import com.godelsoft.besthack.User
+import kotlinx.android.synthetic.main.activity_issue_chat.*
 import kotlinx.android.synthetic.main.card_message.view.*
 
 
@@ -39,11 +40,10 @@ class MessageAdapter(
 
             if (message.clickF == null) {
                 // send message to server
-                val jsonStr = """{"Sender:${senderId},"Dest":${1},"Data":"${text.text}"}"""
-                val t = TcpRequest("SEND_MSG $jsonStr") {}
-                Thread(t).start()
-                print(jsonStr)
-                
+//                val jsonStr = """{"Sender:${senderId},"Dest":${1},"Data":"${text.text}"}"""
+//                val t = TcpRequest("SEND_MSG $jsonStr") {}
+//                Thread(t).start()
+
                 itemView.message_root.setCardBackgroundColor(ContextCompat.getColor(context, R.color.colorIcons))
                 itemView.text.setTextColor(
                     ContextCompat.getColor(
@@ -55,6 +55,9 @@ class MessageAdapter(
             } else {
                 message.clickF.let {
                     itemView.message_root.setOnClickListener {
+                        val jsonStr = """{"Sender":${senderId},"Dest":${1},"Data":"${text.text}"}"""
+                        val t = TcpRequest("SEND_MSG $jsonStr") {}
+                        Thread(t).start()
                         it(User.current)
                     }
                 }
