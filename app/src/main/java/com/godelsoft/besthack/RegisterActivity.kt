@@ -1,5 +1,6 @@
 package com.godelsoft.besthack
 
+import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.view.View.INVISIBLE
 import android.view.View.VISIBLE
@@ -16,6 +17,7 @@ class RegisterActivity : AppCompatActivity()   {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
         setContentView(R.layout.activity_register)
         textErrorEMail.visibility = INVISIBLE
         textErrorPassword.visibility = INVISIBLE
@@ -29,7 +31,7 @@ class RegisterActivity : AppCompatActivity()   {
             }
             else {
                 try {
-                    val req = "REGISTER ${editTextTextEmailAddress.text} ${editTextTextPassword.text} "
+                    val req = "REGISTER ${editTextTextEmailAddress.text} ${editTextTextPassword.text} ${editTextTextPersonName.text}"
                     val test = TcpRequest(req) { res ->
                         if (res?.succ == true) {
                             runOnUiThread {

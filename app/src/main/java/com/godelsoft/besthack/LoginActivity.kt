@@ -2,6 +2,7 @@ package com.godelsoft.besthack
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
@@ -15,6 +16,7 @@ class LoginActivity : AppCompatActivity()  {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
         setContentView(R.layout.activity_sign_in)
 
         val mSettings =
