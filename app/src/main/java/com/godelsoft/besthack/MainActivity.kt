@@ -1,6 +1,7 @@
 package com.godelsoft.besthack
 
 import android.content.Context
+import android.graphics.Color
 import android.graphics.PorterDuff
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -8,6 +9,7 @@ import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.widget.TableRow
+import androidx.cardview.widget.CardView
 import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.core.view.children
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -63,13 +65,16 @@ class MainActivity : AppCompatActivity() {
         for ((r, v) in devicePanel.children.withIndex()) {
             if (v is TableRow) {
                 for ((i, card) in v.children.withIndex()) {
-                    card.deviceName.text = User.current.devices[3 * r + i].model
-                    User.current.devices[3 * r + i].let { card.lastValidDate.text = CalFormatter.datef(Calendar.getInstance().apply {
-                        set(Calendar.MILLISECOND, it.buyTime.timeInMillis.toInt())
-                        add(Calendar.MILLISECOND,
-                        it.validTime.toInt()
-                    ) })}
+                    card.deviceName.text =
+                        //User.current.devices[3 * r + i].model
+                        CalFormatter.datef(User.current.devices[3 * r + i].buyTime)
+                    User.current.devices[3 * r + i].let { card.lastValidDate.text = CalFormatter.datef(it.getInvalidDate())}
                     card.progressBar.progress = User.current.devices[3 * r + i].getProgress()
+                    if (card.progressBar.progress == 0) {
+                        (card as CardView).setCardBackgroundColor(Color.parseColor("#f5b2ae"))
+                    } else {
+                        (card as CardView).setCardBackgroundColor(Color.parseColor("#FAFAFA"))
+                    }
                     card.progressBar.progressDrawable.setColorFilter( User.current.devices[3 * r + i].getProgressColor(), PorterDuff.Mode.SRC_IN)
                 }
             }

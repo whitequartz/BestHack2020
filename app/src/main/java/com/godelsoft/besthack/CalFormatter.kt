@@ -56,5 +56,5 @@ object CalFormatter {
 }
 
 fun Int.daysToMillis(): Long {
-    return this * 1000L * 60L * 60L * 24L
+    return this.toLong() * 1000L * 60L * 60L * 24L
 }

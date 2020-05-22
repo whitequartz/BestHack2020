@@ -35,8 +35,10 @@ class DeviceAdapter(
 //                EventCategory.LBG ->
 //                    categoryColor.setBackgroundColor(getColor(context, R.color.colorEventLGB))
 //            }
-            time.text = CalFormatter.datef(device.buyTime.apply { add(Calendar.MILLISECOND,
-                device.validTime.toInt()
+            time.text = CalFormatter.datef(Calendar.getInstance().apply {
+                set(Calendar.SECOND, device.buyTime.get(Calendar.SECOND))
+                add(Calendar.SECOND,
+                    (device.validTime / 1000).toInt()
             ) })
         }
     }
