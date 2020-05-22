@@ -34,9 +34,11 @@ class IssueChatActivity : AppCompatActivity() {
                     tstr += if (tstr[0] == ']') ']' else '}'
                 println("[LISTENED]:$tstr")
                 val t = JSONObject(tstr)
-                val ts = User(t.optLong("SenderID"), "Support", UserType.SUPPORT)
-                runOnUiThread {
-                    recycleAdapter.add(listOf(Message(ts, t.optString("Content"), "sss")))
+                if (t.optLong("SenderID") != User.current.ID) {
+                    val ts = User(t.optLong("SenderID"), "Support", UserType.SUPPORT)
+                    runOnUiThread {
+                        recycleAdapter.add(listOf(Message(ts, t.optString("Content"), "sss")))
+                    }
                 }
             }
         }
