@@ -1,7 +1,6 @@
 package com.godelsoft.besthack.recycleViewAdapters
 
 import android.content.Context
-import android.util.DisplayMetrics
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -17,13 +16,13 @@ import com.godelsoft.besthack.Message
 import com.godelsoft.besthack.R
 import com.godelsoft.besthack.TcpRequest
 import com.godelsoft.besthack.User
-import kotlinx.android.synthetic.main.activity_issue_chat.*
 import kotlinx.android.synthetic.main.card_message.view.*
 
 
 class MessageAdapter(
     private val context: Context,
-    val recyclerView: RecyclerView
+    val recyclerView: RecyclerView,
+    val chatID: Long
 ) : RecyclerView.Adapter<MessageAdapter.MessageViewHolder>() {
     var messageList = mutableListOf<Message>()
 

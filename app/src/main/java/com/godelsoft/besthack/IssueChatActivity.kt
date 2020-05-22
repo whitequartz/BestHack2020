@@ -4,7 +4,6 @@ import android.content.pm.ActivityInfo
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.transition.TransitionManager
-import android.util.Log
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -24,12 +23,15 @@ class IssueChatActivity : AppCompatActivity() {
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
         setContentView(R.layout.activity_issue_chat)
 
+        val arguments = intent.extras
+        val chatId = arguments?.get("chatId")?.toString()?.toLong()?:1//TODO новый айди чата
+
         recycleView.layoutManager = LinearLayoutManager(this)
-        recycleAdapter = MessageAdapter(this, recycleView)
+        recycleAdapter = MessageAdapter(this, recycleView, chatId)
         recycleView.adapter = recycleAdapter
         bottom.visibility = GONE
 
-        val t1 = TcpRequest("HISTORY ${1}") { res ->
+        val t1 = TcpRequest("HISTORY $chatId") { res ->
             if (res?.succ == true) {
                 val msgs = JSONArray(res.data).let {
                     0.until(it.length()).map { i -> it.optJSONObject(i) }
@@ -52,7 +54,7 @@ class IssueChatActivity : AppCompatActivity() {
             }
 
             // Chat listener
-            connector = ChatConnector(1) { res ->
+            connector = ChatConnector(chatId) { res ->
                 if (res != null) {
                     var tstr: String = res
                     if (tstr[tstr.lastIndex] != '}' && tstr[tstr.lastIndex] != ']')

@@ -1,16 +1,15 @@
 package com.godelsoft.besthack.recycleViewAdapters
 
+import android.R.attr.name
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
-import com.godelsoft.besthack.Issue
-import com.godelsoft.besthack.IssueChatActivity
-import com.godelsoft.besthack.MainActivity
-import com.godelsoft.besthack.R
-import org.jetbrains.anko.startActivity
+import com.godelsoft.besthack.*
 
 
 class IssueAdapter(
@@ -25,7 +24,7 @@ class IssueAdapter(
         private var time: TextView = itemView.findViewById(R.id.time)
 
         fun bind(issue: Issue) {
-            header.text = issue.header
+            header.text = "Заявка №${issue.ID + 1000L}"
             description.text = issue.description
 //            when (issue.event.category) {
 //                EventCategory.PERSONAL ->
@@ -35,10 +34,14 @@ class IssueAdapter(
 //                EventCategory.LBG ->
 //                    categoryColor.setBackgroundColor(getColor(context, R.color.colorEventLGB))
 //            }
+
             time.text = issue.time
             itemView.setOnClickListener {
-                MainActivity.main.startActivity<IssueChatActivity>()
+                MainActivity.main.startActivity(Intent(MainActivity.main, IssueChatActivity::class.java).apply {
+                    putExtra("chatId", issue.ID)
+                })
             }
+
         }
     }
 

@@ -1,6 +1,7 @@
 package com.godelsoft.besthack
 
 import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.PorterDuff
 import android.content.pm.ActivityInfo
@@ -66,34 +67,7 @@ class MainActivity : AppCompatActivity() {
 
         initDeviceMenu()
 
-        try {
-            val req = "GET_CUR_ISSUES ${User.current.ID}"
-            val test = TcpRequest(req) { res ->
-                if (res?.succ == true) {
-                    runOnUiThread {
-                        val issues = JSONArray(res.data).let {
-                            0.until(it.length()).map { i -> it.optJSONObject(i) }
-                        }.map { IssueJSON(it.toString()) }.map {
-                            Issue(
-                                it.id,
-                                it.title,
-                                it.time.toString(),
-                                it.description,
-                                Chat()
-                            )
-                        }
-                        recycleAdapter.update(issues)
-                    }
-                } else {
-                    println("Insuccess current issues loading")
-                    // TODO: error?
-                }
-            }
-            Thread(test).start()
-        } catch (e: Exception) {
-            println("connection error 113244132")
-            // TODO: connection error
-        }
+        tryGetIssues()
 
         when(User.current.type) {
             UserType.WORKER -> {
@@ -111,7 +85,17 @@ class MainActivity : AppCompatActivity() {
         }
 
         floatingActionButton.setOnClickListener {
-            startActivity<IssueChatActivity>()
+            val req = TcpRequest("ADD_ISSUE ${User.current.ID} ") { res ->
+                if (res?.succ == true) {
+                    val newIssueID = res.data
+                    runOnUiThread {
+                        startActivity(Intent(main, IssueChatActivity::class.java).apply {
+                            putExtra("chatId", newIssueID)
+                        })
+                    }
+                }
+            }
+            Thread(req).start()
         }
 
         account.setOnClickListener {
@@ -119,7 +103,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun initDeviceMenu() {
+    private fun initDeviceMenu() {
         for ((r, v) in devicePanel.children.withIndex()) {
             if (v is TableRow) {
                 for ((i, card) in v.children.withIndex()) {
@@ -147,6 +131,37 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
             }
+        }
+    }
+
+    fun tryGetIssues() {
+        try {
+            val req = "GET_CUR_ISSUES ${User.current.ID}"
+            val test = TcpRequest(req) { res ->
+                if (res?.succ == true) {
+                    runOnUiThread {
+                        val issues = JSONArray(res.data).let {
+                            0.until(it.length()).map { i -> it.optJSONObject(i) }
+                        }.map { IssueJSON(it.toString()) }.map {
+                            Issue(
+                                it.id,
+                                it.title,
+                                it.time.toString(),
+                                it.description,
+                                Chat()
+                            )
+                        }
+                        recycleAdapter.update(issues)
+                    }
+                } else {
+                    println("Insuccess current issues loading")
+                    // TODO: error?
+                }
+            }
+            Thread(test).start()
+        } catch (e: Exception) {
+            println("connection error 113244132")
+            // TODO: connection error
         }
     }
 
