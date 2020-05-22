@@ -26,7 +26,7 @@ class User(
                 Device(DeviceType.WIFI, "Xiaomi A8", 74000, Calendar.getInstance().apply { set(2019, 10, 27) }, 900.daysToMillis())
             ))
         }
-        lateinit var current: User
+        var current: User = User(-1, "", UserType.WORKER)
     }
 }
 

@@ -49,7 +49,7 @@ class DeviceAdapter(
         return DeviceViewHolder(
             LayoutInflater
                 .from(context)
-                .inflate(R.layout.card_issue, parent, false)
+                .inflate(R.layout.card_device, parent, false)
         )
     }
 

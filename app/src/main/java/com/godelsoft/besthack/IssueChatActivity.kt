@@ -130,7 +130,7 @@ class IssueChatActivity : AppCompatActivity() {
     }
 
     fun sendAndLoadMessage(chatId: Long, str: String) {
-        val jsonStr = """{"Sender":${User.current.ID},"Dest":${chatId},"Data":"${editText_message.text}"}"""
+        val jsonStr = """{"Sender":${User.current.ID},"Dest":${chatId},"Data":"${str.replace("\n", "^").replace("\"", "~")}"}"""
         val t = TcpRequest("SEND_MSG $jsonStr") {}
         Thread(t).start()
         recycleAdapter.add(

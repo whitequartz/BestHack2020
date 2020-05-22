@@ -1,6 +1,7 @@
 package com.godelsoft.besthack.recycleViewAdapters
 
 import android.content.Context
+import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -36,7 +37,8 @@ class MessageAdapter(
 
             itemView.message_root.setOnClickListener(null)
 
-            if (senderId != User.current.ID && message.text.contains("Заказ:")) {
+            if (senderId != User.current.ID && message.text.contains("Заказ:") && User.current.type == UserType.SUPPORT) {
+                message.text = message.text.replace("^", "\n").replace("~", "\"")
                 message.clickF = fun(user: User) {
                     fun parse(str: String): Device {
                         fun getCal(str: String) : Calendar {
@@ -46,15 +48,21 @@ class MessageAdapter(
                                 it.set(Calendar.MONTH, tuple[1].toInt() - 1)
                             }
                         }
-                        val ind1 = str.indexOf(" ") + 1
+                        Log.d("[dadada]", senderId.toString())
+                        val ind1 = str.indexOf("\"") - 1
                         val dt = str.substring("Заказ:\n".length, ind1).let { DeviceType.values().filter { t -> t.displayName.compareTo(it) == 0 } }
-                        val model = str.substring(ind1 + 1, str.indexOf("\"\n", ind1))
+                        val model = str.substring(ind1 + 2, str.indexOf("\n", ind1) - 1)
                         val calendar = getCal(str.substring(str.indexOf("Гарантия до: ") + "Гарантия до: ".length, str.indexOf("\nЦена")))
-                        val cost = str.substring(str.indexOf("\nЦена: ") + "\nЦена: ".length, str.length).toInt()
+                        val cost = str.substring(str.indexOf("\nЦена: ") + "\nЦена: ".length, str.length - 1).toInt()
                         return Device(dt[0], model, cost, Calendar.getInstance(), calendar.timeInMillis - Calendar.getInstance().timeInMillis)
                     }
                     val d = parse(message.text)
                     Toast.makeText(recyclerView.context, d.model, Toast.LENGTH_SHORT).show()
+                    val req1 = TcpRequest("ADD_DEVICE $senderId ${DeviceType.values().indexOf(d.type)} ${d.model.replace(" ", "_")} ${d.cost} ${Calendar.getInstance().timeInMillis} ${d.validTime}") { res1 ->
+                        if (res1?.succ == true) {
+                        }
+                    }
+                    Thread(req1).start()
                 }
             }
 

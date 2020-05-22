@@ -5,7 +5,7 @@ import org.json.JSONObject
 
 class Message(
     val sender: User,
-    val text: String,
+    var text: String,
     val time: String,
     var clickF: ((user: User) -> Unit)? = null
 ) {

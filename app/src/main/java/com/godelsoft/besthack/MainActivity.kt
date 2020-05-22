@@ -97,7 +97,6 @@ class MainActivity : AppCompatActivity() {
 //            Device(DeviceType.MICROPHONE, "YETI", 74000, Calendar.getInstance().apply { set(2019, 10, 27) }, 200.daysToMillis()),
 //            Device(DeviceType.WIFI, "Xiaomi A8", 74000, Calendar.getInstance().apply { set(2019, 10, 27) }, 900.daysToMillis()))
 
-
         initDeviceMenu()
 
 
@@ -139,38 +138,62 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         tryGetIssues()
+        initDeviceMenu()
         super.onResume()
     }
 
     private fun initDeviceMenu() {
-        for ((r, v) in devicePanel.children.withIndex()) {
-            if (v is TableRow) {
-                for ((i, card) in v.children.withIndex()) {
-                    val device =  User.current.devices[3 * r + i]
-                    if (device == null) {
-                        card.deviceName.text = "Отсутствует"
-                        card.lastValidDate.visibility = GONE
-                        card.progressBar.visibility = GONE
-                        (card as CardView).setCardBackgroundColor(Color.parseColor("#f5b2ae"))
-                    } else {
-                        card.lastValidDate.visibility = VISIBLE
-                        card.progressBar.visibility = VISIBLE
-                        card.deviceName.text = device.model
-                        card.lastValidDate.text = CalFormatter.datef(device.getInvalidDate())
-                        card.progressBar.progress = device.getProgress()
-                        if (card.progressBar.progress == 0) {
-                            (card as CardView).setCardBackgroundColor(Color.parseColor("#f5b2ae"))
-                        } else {
-                            (card as CardView).setCardBackgroundColor(Color.parseColor("#FAFAFA"))
+
+        val req1 = TcpRequest("GET_DEVICES ${User.current.ID}") { res ->
+            if (res?.succ == true) {
+                val devices = JSONArray(res.data).let {
+                    0.until(it.length()).map { i -> it.optJSONObject(i) }
+                }.map { Device(
+                    DeviceType.values()[it.optInt("Type") ?: 0],
+                    it.optString("Model") ?: "",
+                    it.optInt("Cost"),
+                    CalFormatter.getCalendarFromDate(Date(it.optLong("BuyTime"))),
+                    it.optLong("ValidTime")
+                )}
+                User.current.devices.clear()
+                User.current.devices.addAll(devices)
+                runOnUiThread {
+                    for ((r, v) in devicePanel.children.withIndex()) {
+                        if (v is TableRow) {
+                            for ((i, card) in v.children.withIndex()) {
+                                if (User.current.devices.lastIndex < 3 * r + i) {
+                                    User.current.devices.add(null)
+                                }
+                                val device =  User.current.devices[3 * r + i]
+                                if (device == null) {
+                                    card.deviceName.text = "Отсутствует"
+                                    card.lastValidDate.visibility = GONE
+                                    card.progressBar.visibility = GONE
+                                    (card as CardView).setCardBackgroundColor(Color.parseColor("#f5b2ae"))
+                                } else {
+                                    card.lastValidDate.visibility = VISIBLE
+                                    card.progressBar.visibility = VISIBLE
+                                    card.deviceName.text = device.model
+                                    card.lastValidDate.text = CalFormatter.datef(device.getInvalidDate())
+                                    card.progressBar.progress = device.getProgress()
+                                    if (card.progressBar.progress == 0) {
+                                        (card as CardView).setCardBackgroundColor(Color.parseColor("#f5b2ae"))
+                                    } else {
+                                        (card as CardView).setCardBackgroundColor(Color.parseColor("#FAFAFA"))
+                                    }
+                                    card.progressBar.progressDrawable.setColorFilter(
+                                        device.getProgressColor(),
+                                        PorterDuff.Mode.SRC_IN
+                                    )
+                                }
+                            }
                         }
-                        card.progressBar.progressDrawable.setColorFilter(
-                            device.getProgressColor(),
-                            PorterDuff.Mode.SRC_IN
-                        )
                     }
                 }
             }
         }
+        Thread(req1).start()
+
     }
 
     fun tryGetIssues() {
