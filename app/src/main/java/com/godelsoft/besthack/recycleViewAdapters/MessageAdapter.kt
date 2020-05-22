@@ -51,7 +51,7 @@ class MessageAdapter(
                 message.clickF.let {
                     itemView.message_root.setOnClickListener {
                         it(User.current)
-                        val jsonStr = """{"Sender":${senderId},"Dest":${1},"Data":"${text.text}"}"""
+                        val jsonStr = """{"Sender":${senderId},"Dest":${chatID},"Data":"${text.text}"}"""
                         val t = TcpRequest("SEND_MSG $jsonStr") {}
                         Thread(t).start()
                     }

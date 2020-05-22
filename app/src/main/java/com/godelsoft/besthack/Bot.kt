@@ -1,6 +1,7 @@
 package com.godelsoft.besthack
 
 import com.godelsoft.besthack.recycleViewAdapters.MessageAdapter
+import kotlinx.android.synthetic.main.activity_issue_chat.*
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -17,6 +18,9 @@ data class Bot(val botSender: User, val sender: User, val recycleAdapter: Messag
                 }
                 recycleAdapter.add(Message.selectMessages(recycleAdapter, messages))
             } else {
+                val jsonStr = """{"Sender":${botSender.ID},"Dest":${recycleAdapter.chatID},"Data":"$answer"}"""
+                val t = TcpRequest("SEND_MSG $jsonStr") {}
+                Thread(t).start()
                 recycleAdapter.add(
                     mutableListOf(
                         Message(botSender, answer, "${CalFormatter.datef(Calendar.getInstance())} ${CalFormatter.timef(Calendar.getInstance())}")
@@ -43,7 +47,7 @@ data class Bot(val botSender: User, val sender: User, val recycleAdapter: Messag
     init {
         addMessage("back", "Назад", null, arrayOf("FAQ", "request", "call support"))
 
-            addMessage("other", "Проблема другого рода, свяжите меня с оператором", "Соединаем с опретором...", arrayOf(), connectToSupport)
+            addMessage("other", "Проблема другого рода, свяжите меня с оператором", "Соединяем с опретором...", arrayOf(), connectToSupport)
                 addMessage("poweroff", "Я не знаю как выключить компьютер", "Чтобы выключить компьютер под управлением OS Windows" +
                         "нажмите на меню пуск в левом нижнем углу, выбере пункт `выключение` -> `Завершение работы`\nВам помогла данная инструкция?", arrayOf("yes", "no"))
                 addMessage("notepad", "Блокнот завис", "Для решения проблемы последовательно выполните следующие пункты:" +
