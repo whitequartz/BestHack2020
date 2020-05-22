@@ -33,9 +33,9 @@ class LoginActivity : AppCompatActivity()  {
                         val userId = (res.data ?: "0").toLong()
                         val t = TcpRequest("IS_TP $userId") {
                             if (it?.succ == true) {
-                                val type = UserType.WORKER
+                                var type = UserType.WORKER
                                 if (it.data == "1")
-                                    User.current.type = UserType.SUPPORT
+                                    type = UserType.SUPPORT
                                 User.current = User(userId, "NAME", type).apply {
                                     devices.addAll(User.userTest.devices)
                                 }
@@ -63,9 +63,9 @@ class LoginActivity : AppCompatActivity()  {
                         editor.apply()
                         val t = TcpRequest("IS_TP $userId") {
                             if (it?.succ == true) {
-                                val type = UserType.WORKER
+                                var type = UserType.WORKER
                                 if (it.data == "1")
-                                    User.current.type = UserType.SUPPORT
+                                    type = UserType.SUPPORT
                                 User.current = User(userId, "NAME", type).apply {
                                     devices.addAll(User.userTest.devices)
                                 }
