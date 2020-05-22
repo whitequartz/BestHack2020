@@ -24,7 +24,7 @@
         style="@style/Widget.MaterialComponents.Button.TextButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="32dp"
         android:text="Выйти из аккаунта"
         android:textAllCaps="true"
         android:textColor="@color/colorAccent"
