@@ -65,37 +65,36 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
-        var l = arrayListOf<Device>()
-        val req = TcpRequest("GET_DEVICES ${User.current.ID}") { res ->
-            if (res?.succ == true) {
-                val devices = JSONArray(res.data).let {
-                    0.until(it.length()).map { i -> it.optJSONObject(i) }
-                }.map { Device(
-                    DeviceType.values()[it.optInt("Type") ?: 0],
-                    it.optString("Model") ?: "",
-                    it.optInt("Cost"),
-                    CalFormatter.getCalendarFromDate(Date(it.optLong("BuyTime"))),
-                    it.optLong("ValidTime")
-                )}
-            }
-        }
-        Thread(req).start()
+//        var l = arrayListOf<Device>()
+//        val req = TcpRequest("GET_DEVICES ${User.current.ID}") { res ->
+//            if (res?.succ == true) {
+//                val devices = JSONArray(res.data).let {
+//                    0.until(it.length()).map { i -> it.optJSONObject(i) }
+//                }.map { Device(
+//                    DeviceType.values()[it.optInt("Type") ?: 0],
+//                    it.optString("Model") ?: "",
+//                    it.optInt("Cost"),
+//                    CalFormatter.getCalendarFromDate(Date(it.optLong("BuyTime"))),
+//                    it.optLong("ValidTime")
+//                )}
+//            }
+//        }
+//        Thread(req).start()
 
 //        User.current.devices = l
 
 
 
-//            arrayListOf(
-//            l,
-////            Device(DeviceType.SYSTEM, "ASUS SSROG 22-81", 74000, Calendar.getInstance().apply { set(2019, 10, 27) }, 700.daysToMillis()),
-//            Device(DeviceType.MONITOR, "AOC 23\"", 14000, Calendar.getInstance().apply { set(2019, 10, 27) }, 264.daysToMillis()),
-//            Device(DeviceType.MONITOR, "AOC 27\"", 17000, Calendar.getInstance().apply { set(2019, 10, 27) }, 124.daysToMillis()),
-//            Device(DeviceType.KEYBOARD, "ASUS Claymore", 10000, Calendar.getInstance().apply { set(2019, 10, 27) }, 424.daysToMillis()),
-//            Device(DeviceType.MOUSE, "Zowie EC2-A", 5000, Calendar.getInstance().apply { set(2019, 10, 27) }, 600.daysToMillis()),
-//            Device(DeviceType.HEADPHONES, "Razer Kraken", 7500, Calendar.getInstance().apply { set(2019, 10, 27) }, 500.daysToMillis()),
-//            Device(DeviceType.CAMERA, "LG 270", 3000, Calendar.getInstance().apply { set(2019, 10, 27) }, 365.daysToMillis()),
-//            Device(DeviceType.MICROPHONE, "YETI", 74000, Calendar.getInstance().apply { set(2019, 10, 27) }, 200.daysToMillis()),
-//            Device(DeviceType.WIFI, "Xiaomi A8", 74000, Calendar.getInstance().apply { set(2019, 10, 27) }, 900.daysToMillis()))
+            arrayListOf(
+            Device(DeviceType.SYSTEM, "ASUS SSROG 22-81", 74000, Calendar.getInstance().apply { set(2019, 10, 27) }, 700.daysToMillis()),
+            Device(DeviceType.MONITOR, "AOC 23\"", 14000, Calendar.getInstance().apply { set(2019, 10, 27) }, 264.daysToMillis()),
+            Device(DeviceType.MONITOR, "AOC 27\"", 17000, Calendar.getInstance().apply { set(2019, 10, 27) }, 124.daysToMillis()),
+            Device(DeviceType.KEYBOARD, "ASUS Claymore", 10000, Calendar.getInstance().apply { set(2019, 10, 27) }, 424.daysToMillis()),
+            Device(DeviceType.MOUSE, "Zowie EC2-A", 5000, Calendar.getInstance().apply { set(2019, 10, 27) }, 600.daysToMillis()),
+            Device(DeviceType.HEADPHONES, "Razer Kraken", 7500, Calendar.getInstance().apply { set(2019, 10, 27) }, 500.daysToMillis()),
+            Device(DeviceType.CAMERA, "LG 270", 3000, Calendar.getInstance().apply { set(2019, 10, 27) }, 365.daysToMillis()),
+            Device(DeviceType.MICROPHONE, "YETI", 74000, Calendar.getInstance().apply { set(2019, 10, 27) }, 200.daysToMillis()),
+            Device(DeviceType.WIFI, "Xiaomi A8", 74000, Calendar.getInstance().apply { set(2019, 10, 27) }, 900.daysToMillis()))
 
 
         initDeviceMenu()
