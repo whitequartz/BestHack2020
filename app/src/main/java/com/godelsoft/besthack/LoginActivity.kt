@@ -31,7 +31,7 @@ class LoginActivity : AppCompatActivity()  {
                 val req = TcpRequest("CHECK_TOKEN $token") { res ->
                     if (res?.succ == true) {
                         val userId = (res.data ?: "0").toLong()
-                        TcpRequest("IS_TP $userId") {
+                        val t = TcpRequest("IS_TP $userId") {
                             if (it?.succ == true) {
                                 val type = UserType.WORKER
                                 if (it.data == "1")
@@ -40,9 +40,12 @@ class LoginActivity : AppCompatActivity()  {
                                     devices.addAll(User.userTest.devices)
                                 }
                                 Log.d("STATUS:", User.current.type.toString())
-                                startActivity(intentFor<MainActivity>().newTask().clearTask())
+                                runOnUiThread {
+                                    startActivity(intentFor<MainActivity>().newTask().clearTask())
+                                }
                             }
                         }
+                        Thread(t).run()
                     }
                 }
                 Thread(req).start()
@@ -54,21 +57,29 @@ class LoginActivity : AppCompatActivity()  {
                 val req = TcpRequest("AUTH ${textEmailAddress.text} ${textPassword.text} ") { res ->
                     if (res?.succ == true) {
                         val authData = JSONObject(res.data ?: "")
-                        User.current = User(authData.optLong("ID"), "NAME", UserType.WORKER).apply {
-                            devices.addAll(User.userTest.devices)
-                        } // TODO
+                        val userId = authData.optLong("ID")
                         val editor = mSettings.edit()
                         editor.putString(GlobalDataLoader.APP_TOKEN, authData.optString("Token"))
                         editor.apply()
-                        runOnUiThread {
-                            startActivity(intentFor<MainActivity>().newTask().clearTask())
+                        val t = TcpRequest("IS_TP $userId") {
+                            if (it?.succ == true) {
+                                val type = UserType.WORKER
+                                if (it.data == "1")
+                                    User.current.type = UserType.SUPPORT
+                                User.current = User(userId, "NAME", type).apply {
+                                    devices.addAll(User.userTest.devices)
+                                }
+                                Log.d("STATUS:", User.current.type.toString())
+                                runOnUiThread {
+                                    startActivity(intentFor<MainActivity>().newTask().clearTask())
+                                }
+                            }
                         }
+                        Thread(t).run()
                     }
                 }
                 Thread(req).start()
-            } catch (e: Exception) {
-                // TODO
-            }
+            } catch (e: Exception) { }
         }
 
         buttonCreateNew.setOnClickListener {
