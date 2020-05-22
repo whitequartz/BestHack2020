@@ -35,15 +35,15 @@ class IssueChatActivity : AppCompatActivity() {
             if (res?.succ == true) {
                 val msgs = JSONArray(res.data).let {
                     0.until(it.length()).map { i -> it.optJSONObject(i) }
-                }.map { MessageJSON(it.toString()) }.map {
+                }.map { MessageJSON(it.toString()) }.map { it1 ->
                     Message(
-                        User(it.sender, "NAME", when (it.mtype) {
+                        User(it1.sender, "NAME", when (it1.mtype) {
                             0 -> UserType.WORKER
                             1 -> UserType.SUPPORT
                             else -> UserType.WORKER // Care
                         }),
-                        it.text,
-                        it.time.toString())
+                        it1.text,
+                        Date(it1.time.toString().toLong() * 1000L).let { "${CalFormatter.datef(it)} ${CalFormatter.timef(it)}" })
                 }
                 runOnUiThread {
                     recycleAdapter.add(msgs)

@@ -10,6 +10,7 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.godelsoft.besthack.*
+import java.util.*
 
 
 class IssueAdapter(
@@ -35,7 +36,7 @@ class IssueAdapter(
 //                    categoryColor.setBackgroundColor(getColor(context, R.color.colorEventLGB))
 //            }
 
-            time.text = issue.time
+            time.text = Date(issue.time.toLong() * 1000L).let { "${CalFormatter.datef(it)} ${CalFormatter.timef(it)}" }
             itemView.setOnClickListener {
                 MainActivity.main.startActivity(Intent(MainActivity.main, IssueChatActivity::class.java).apply {
                     putExtra("chatId", issue.ID)
