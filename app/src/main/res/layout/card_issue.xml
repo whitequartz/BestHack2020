@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:clickable="true"
     app:cardCornerRadius="16dp"
     app:cardElevation="3dp"
     app:cardUseCompatPadding="true">
@@ -12,7 +13,7 @@
         android:id="@+id/conLay"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorIcons">
+        android:background="?android:attr/selectableItemBackgroundBorderless">
 
         <TextView
             android:id="@+id/date"

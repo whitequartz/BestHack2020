@@ -1,6 +1,7 @@
 package com.godelsoft.besthack
 
 import android.content.Context
+import android.graphics.Color
 import android.graphics.PorterDuff
 import android.content.pm.ActivityInfo
 import androidx.appcompat.app.AppCompatActivity
@@ -9,6 +10,7 @@ import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.widget.TableRow
+import androidx.cardview.widget.CardView
 import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.core.view.children
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -65,14 +67,28 @@ class MainActivity : AppCompatActivity() {
         for ((r, v) in devicePanel.children.withIndex()) {
             if (v is TableRow) {
                 for ((i, card) in v.children.withIndex()) {
-                    card.deviceName.text = User.current.devices[3 * r + i].model
-                    User.current.devices[3 * r + i].let { card.lastValidDate.text = CalFormatter.datef(Calendar.getInstance().apply {
-                        set(Calendar.MILLISECOND, it.buyTime.timeInMillis.toInt())
-                        add(Calendar.MILLISECOND,
-                        it.validTime.toInt()
-                    ) })}
-                    card.progressBar.progress = User.current.devices[3 * r + i].getProgress()
-                    card.progressBar.progressDrawable.setColorFilter( User.current.devices[3 * r + i].getProgressColor(), PorterDuff.Mode.SRC_IN)
+                    val device =  User.current.devices[3 * r + i]
+                    if (device == null) {
+                        card.deviceName.text = "Отсутствует"
+                        card.lastValidDate.visibility = GONE
+                        card.progressBar.visibility = GONE
+                        (card as CardView).setCardBackgroundColor(Color.parseColor("#f5b2ae"))
+                    } else {
+                        card.lastValidDate.visibility = VISIBLE
+                        card.progressBar.visibility = VISIBLE
+                        card.deviceName.text = device.model
+                        card.lastValidDate.text = CalFormatter.datef(device.getInvalidDate())
+                        card.progressBar.progress = device.getProgress()
+                        if (card.progressBar.progress == 0) {
+                            (card as CardView).setCardBackgroundColor(Color.parseColor("#f5b2ae"))
+                        } else {
+                            (card as CardView).setCardBackgroundColor(Color.parseColor("#FAFAFA"))
+                        }
+                        card.progressBar.progressDrawable.setColorFilter(
+                            device.getProgressColor(),
+                            PorterDuff.Mode.SRC_IN
+                        )
+                    }
                 }
             }
         }
@@ -126,7 +142,6 @@ class MainActivity : AppCompatActivity() {
         }
 
         account.setOnClickListener {
-            print("\n\n\n11111111111111111111111")
             startActivity<MyAccountActivity>()
         }
     }
