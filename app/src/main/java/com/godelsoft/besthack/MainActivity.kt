@@ -134,6 +134,11 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    override fun onResume() {
+        tryGetIssues()
+        super.onResume()
+    }
+
     private fun initDeviceMenu() {
         for ((r, v) in devicePanel.children.withIndex()) {
             if (v is TableRow) {
