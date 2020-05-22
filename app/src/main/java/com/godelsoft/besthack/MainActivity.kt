@@ -65,9 +65,8 @@ class MainActivity : AppCompatActivity() {
         for ((r, v) in devicePanel.children.withIndex()) {
             if (v is TableRow) {
                 for ((i, card) in v.children.withIndex()) {
-                    card.deviceName.text =
-                        //User.current.devices[3 * r + i].model
-                        CalFormatter.datef(User.current.devices[3 * r + i].buyTime)
+                    card.deviceName.text = User.current.devices[3 * r + i].model
+//                        CalFormatter.datef(User.current.devices[3 * r + i].buyTime)
                     User.current.devices[3 * r + i].let { card.lastValidDate.text = CalFormatter.datef(it.getInvalidDate())}
                     card.progressBar.progress = User.current.devices[3 * r + i].getProgress()
                     if (card.progressBar.progress == 0) {
