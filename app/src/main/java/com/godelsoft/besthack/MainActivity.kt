@@ -21,6 +21,7 @@ import kotlinx.android.synthetic.main.activity_main.view.*
 import org.jetbrains.anko.startActivity
 import org.json.JSONArray
 import java.util.*
+import android.util.Log
 
 class MainActivity : AppCompatActivity() {
     private lateinit var recycleAdapter: IssueAdapter
@@ -65,39 +66,51 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
-//        var l = arrayListOf<Device>()
-//        val req = TcpRequest("GET_DEVICES ${User.current.ID}") { res ->
-//            if (res?.succ == true) {
-//                val devices = JSONArray(res.data).let {
-//                    0.until(it.length()).map { i -> it.optJSONObject(i) }
-//                }.map { Device(
+        var s1 = ""
+        val req = TcpRequest("GET_DEVICES ${User.current.ID}") { res ->
+            if (res?.succ == true) {
+                val devices = JSONArray(res.data).let {
+                    0.until(it.length()).map { i -> it.optJSONObject(i) }
+                }
+//                        .map { Device(
 //                    DeviceType.values()[it.optInt("Type") ?: 0],
 //                    it.optString("Model") ?: "",
 //                    it.optInt("Cost"),
 //                    CalFormatter.getCalendarFromDate(Date(it.optLong("BuyTime"))),
-//                    it.optLong("ValidTime")
+//                    it
 //                )}
-//            }
-//        }
-//        Thread(req).start()
 
+                User.current.devices = arrayListOf(
+                        Device(DeviceType.SYSTEM, devices[0].optString("Model"), devices[0].optInt("Cost"), CalFormatter.getCalendarFromDate(Date(devices[0].optLong("BuyTime"))), devices[0].optLong("ValidTime")),
+                        Device(DeviceType.MONITOR, devices[1].optString("Model"), devices[1].optInt("Cost"), CalFormatter.getCalendarFromDate(Date(devices[1].optLong("BuyTime"))), devices[1].optLong("ValidTime")),
+                        Device(DeviceType.MONITOR, devices[2].optString("Model"), devices[2].optInt("Cost"), CalFormatter.getCalendarFromDate(Date(devices[2].optLong("BuyTime"))), devices[2].optLong("ValidTime")),
+                        Device(DeviceType.KEYBOARD, devices[3].optString("Model"), devices[3].optInt("Cost"), CalFormatter.getCalendarFromDate(Date(devices[3].optLong("BuyTime"))), devices[3].optLong("ValidTime")),
+                        Device(DeviceType.MOUSE, devices[4].optString("Model"), devices[4].optInt("Cost"), CalFormatter.getCalendarFromDate(Date(devices[4].optLong("BuyTime"))), devices[4].optLong("ValidTime")),
+                        Device(DeviceType.HEADPHONES, devices[5].optString("Model"), devices[5].optInt("Cost"), CalFormatter.getCalendarFromDate(Date(devices[5].optLong("BuyTime"))), devices[5].optLong("ValidTime")),
+                        Device(DeviceType.CAMERA, devices[6].optString("Model"), devices[6].optInt("Cost"), CalFormatter.getCalendarFromDate(Date(devices[6].optLong("BuyTime"))), devices[6].optLong("ValidTime")),
+                        Device(DeviceType.MICROPHONE, devices[7].optString("Model"), devices[7].optInt("Cost"), CalFormatter.getCalendarFromDate(Date(devices[7].optLong("BuyTime"))), devices[7].optLong("ValidTime")),
+                        Device(DeviceType.WIFI, devices[8].optString("Model"), devices[8].optInt("Cost"), CalFormatter.getCalendarFromDate(Date(devices[8].optLong("BuyTime"))), devices[8].optLong("ValidTime")))
+                initDeviceMenu()
+            }
+        }
+        Thread(req).start()
 //        User.current.devices = l
 
 
 
-            arrayListOf(
-            Device(DeviceType.SYSTEM, "ASUS SSROG 22-81", 74000, Calendar.getInstance().apply { set(2019, 10, 27) }, 700.daysToMillis()),
-            Device(DeviceType.MONITOR, "AOC 23\"", 14000, Calendar.getInstance().apply { set(2019, 10, 27) }, 264.daysToMillis()),
-            Device(DeviceType.MONITOR, "AOC 27\"", 17000, Calendar.getInstance().apply { set(2019, 10, 27) }, 124.daysToMillis()),
-            Device(DeviceType.KEYBOARD, "ASUS Claymore", 10000, Calendar.getInstance().apply { set(2019, 10, 27) }, 424.daysToMillis()),
-            Device(DeviceType.MOUSE, "Zowie EC2-A", 5000, Calendar.getInstance().apply { set(2019, 10, 27) }, 600.daysToMillis()),
-            Device(DeviceType.HEADPHONES, "Razer Kraken", 7500, Calendar.getInstance().apply { set(2019, 10, 27) }, 500.daysToMillis()),
-            Device(DeviceType.CAMERA, "LG 270", 3000, Calendar.getInstance().apply { set(2019, 10, 27) }, 365.daysToMillis()),
-            Device(DeviceType.MICROPHONE, "YETI", 74000, Calendar.getInstance().apply { set(2019, 10, 27) }, 200.daysToMillis()),
-            Device(DeviceType.WIFI, "Xiaomi A8", 74000, Calendar.getInstance().apply { set(2019, 10, 27) }, 900.daysToMillis()))
+//        User.current.devices = arrayListOf(
+//                Device(DeviceType.SYSTEM, s1, 74000, Calendar.getInstance().apply { set(2019, 10, 27) }, 700.daysToMillis()),
+//                Device(DeviceType.MONITOR, "AOC 23\"", 14000, Calendar.getInstance().apply { set(2019, 10, 27) }, 264.daysToMillis()),
+//                Device(DeviceType.MONITOR, "AOC 27\"", 17000, Calendar.getInstance().apply { set(2019, 10, 27) }, 124.daysToMillis()),
+//                Device(DeviceType.KEYBOARD, "ASUS Claymore", 10000, Calendar.getInstance().apply { set(2019, 10, 27) }, 424.daysToMillis()),
+//                Device(DeviceType.MOUSE, "Zowie EC2-A", 5000, Calendar.getInstance().apply { set(2019, 10, 27) }, 600.daysToMillis()),
+//                Device(DeviceType.HEADPHONES, "Razer Kraken", 7500, Calendar.getInstance().apply { set(2019, 10, 27) }, 500.daysToMillis()),
+//                Device(DeviceType.CAMERA, "LG 270", 3000, Calendar.getInstance().apply { set(2019, 10, 27) }, 365.daysToMillis()),
+//                Device(DeviceType.MICROPHONE, "YETI", 74000, Calendar.getInstance().apply { set(2019, 10, 27) }, 200.daysToMillis()),
+//                Device(DeviceType.WIFI, "Xiaomi A8", 74000, Calendar.getInstance().apply { set(2019, 10, 27) }, 900.daysToMillis()))
 
 
-        initDeviceMenu()
+//        initDeviceMenu()
 
 
         tryGetIssues()
