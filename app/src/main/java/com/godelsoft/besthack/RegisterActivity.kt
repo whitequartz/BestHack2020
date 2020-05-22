@@ -21,10 +21,14 @@ class RegisterActivity : AppCompatActivity()   {
         setContentView(R.layout.activity_register)
         textErrorEMail.visibility = INVISIBLE
         textErrorPassword.visibility = INVISIBLE
+        textNoPassword.visibility = INVISIBLE
+        textNoEMail.visibility = INVISIBLE
 
         buttonRegister.setOnClickListener {
             textErrorEMail.visibility = INVISIBLE
             textErrorPassword.visibility = INVISIBLE
+            textNoPassword.visibility = INVISIBLE
+            textNoEMail.visibility = INVISIBLE
 
             if (editTextTextPassword.text.toString() != editTextTextPassword2.text.toString()) {
                 textErrorPassword.visibility = VISIBLE
