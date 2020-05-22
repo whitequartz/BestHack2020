@@ -54,3 +54,7 @@ object CalFormatter {
                 c1.get(Calendar.YEAR) == c2.get(Calendar.YEAR)
     }
 }
+
+fun Int.daysToMillis(): Long {
+    return this * 1000L * 60L * 60L * 24L
+}
