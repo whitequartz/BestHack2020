@@ -35,11 +35,11 @@ class RegisterActivity : AppCompatActivity()   {
             }
             else {
                 try {
-                    val req = "REGISTER ${editTextTextEmailAddress.text} ${editTextTextPassword.text} ${editTextTextPersonName.text}"
+                    val req = "REGISTER ${editTextTextEmailAddress.text} ${editTextTextPassword.text} Alexey"
                     val test = TcpRequest(req) { res ->
                         if (res?.succ == true) {
                             runOnUiThread {
-                                startActivity(intentFor<MainActivity>().newTask().clearTask())
+                                startActivity(intentFor<LoginActivity>().newTask().clearTask())
                             }
                         } else {
                             runOnUiThread {

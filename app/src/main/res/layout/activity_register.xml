@@ -29,9 +29,11 @@
         android:hint="Имя"
         android:inputType="textPersonName"
         android:textColor="#673AB7"
+        android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@+id/editTextTextPersonName2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        tools:visibility="gone" />
 
     <EditText
         android:id="@+id/editTextTextPersonName2"
@@ -42,9 +44,11 @@
         android:hint="Фамилия"
         android:inputType="textPersonName"
         android:textColor="#673AB7"
+        android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@+id/editTextTextEmailAddress"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        tools:visibility="gone" />
 
     <EditText
         android:id="@+id/editTextTextEmailAddress"

@@ -67,7 +67,7 @@ data class Bot(val botSender: User, val sender: User, val recycleAdapter: Messag
             addMessage("hard", "Проблема с комплектующими", "Что у вас не работает?", arrayOf("mouse", "monitor", "back_FAQ"))
         addMessage("FAQ", "Популярные вопросы", "С какого рода проблемой вы столкнулись?", arrayOf("hard", "soft", "other", "back"))
 
-            addMessage("order", "Заявка другого рода", "Соединаем с опретором...", arrayOf(), connectToSupport)
+            addMessage("order", "Заявка другого рода", "Соединяем с опретором...", arrayOf(), connectToSupport)
             addMessage("order", "Заявка на покупку нового оборудования", "Перенаправляем в форму заявки", arrayOf("back"))
             addMessage("crash", "Заявка на ремонт оборудования", "Перенаправляем в форму заявки", arrayOf("back"))
         addMessage("request", "Создать заявку", "Какой тип заявки вы хотите оставить?", arrayOf("crash", "order", "other", "back"))

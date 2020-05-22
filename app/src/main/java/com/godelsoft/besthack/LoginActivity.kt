@@ -31,7 +31,7 @@ class LoginActivity : AppCompatActivity()  {
                     if (res?.succ == true) {
                         User.current = User((res.data ?: "0").toLong(), "NAME", UserType.WORKER).apply {
                             devices.addAll(User.userTest.devices)
-                        } // TODO
+                        }
                         startActivity(intentFor<MainActivity>().newTask().clearTask())
                     }
                 }
