@@ -5,7 +5,7 @@ import kotlinx.android.synthetic.main.activity_issue_chat.*
 import java.util.*
 import kotlin.collections.ArrayList
 
-data class Bot(val botSender: User, val sender: User, val recycleAdapter: MessageAdapter, val connectToSupport: (user: User) -> Unit = {}) {
+data class Bot(val botSender: User, val sender: User, val recycleAdapter: MessageAdapter, val openShop: () -> Unit = {}, val connectToSupport: (user: User) -> Unit = {}) {
     private val dialogStatus =  hashMapOf<String, Message>()
     private val currentStatus: String = "/"
 
@@ -68,8 +68,12 @@ data class Bot(val botSender: User, val sender: User, val recycleAdapter: Messag
         addMessage("FAQ", "Популярные вопросы", "С какого рода проблемой вы столкнулись?", arrayOf("hard", "soft", "other", "back"))
 
             addMessage("order", "Заявка другого рода", "Соединяем с опретором...", arrayOf(), connectToSupport)
-            addMessage("order", "Заявка на покупку нового оборудования", "Перенаправляем в форму заявки", arrayOf("back"))
-            addMessage("crash", "Заявка на ремонт оборудования", "Перенаправляем в форму заявки", arrayOf("back"))
+            addMessage("order", "Заявка на покупку нового оборудования", "Перенаправляем в форму заявки", arrayOf("back")) {
+                openShop()
+            }
+            addMessage("crash", "Заявка на ремонт оборудования", "Перенаправляем в форму заявки", arrayOf("back")) {
+                openShop()
+            }
         addMessage("request", "Создать заявку", "Какой тип заявки вы хотите оставить?", arrayOf("crash", "order", "other", "back"))
 
         addMessage("call support", "Соединить с оператором", "Соединяю с оператором...", arrayOf(), connectToSupport)

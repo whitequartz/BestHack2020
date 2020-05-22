@@ -156,6 +156,9 @@ class MainActivity : AppCompatActivity() {
                     it.optLong("ValidTime")
                 )}
                 User.current.devices.clear()
+                for(i in devices.lastIndex - 9..devices.lastIndex) {
+                    if (i in 0..devices.lastIndex) User.current.devices.add(devices[i])
+                }
                 User.current.devices.addAll(devices)
                 runOnUiThread {
                     for ((r, v) in devicePanel.children.withIndex()) {

@@ -76,9 +76,12 @@ class IssueChatActivity : AppCompatActivity() {
             Thread(connector).start()
 
             runOnUiThread {
+                val f = fun() {
+                    startActivityForResult(Intent(this, DeviceActivity::class.java), 10)
+                }
                 // Knopo4ki
                 val ts = User(-1, "Support", UserType.SUPPORT)
-                val bot = Bot(ts, User.current, recycleAdapter) {
+                val bot = Bot(ts, User.current, recycleAdapter, f) {
                     recycleView.postDelayed({
                         bottom.visibility = VISIBLE
                         TransitionManager.beginDelayedTransition(root)
@@ -88,8 +91,8 @@ class IssueChatActivity : AppCompatActivity() {
                             editText_message.text.clear()
                         }
                     }, 1000)
-                    startActivityForResult(Intent(this, DeviceActivity::class.java), 10)
                 }
+
 
                 recycleAdapter.add(
                     Message.selectMessages(

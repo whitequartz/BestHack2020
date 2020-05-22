@@ -22,7 +22,6 @@ class LoginActivity : AppCompatActivity()  {
         val mSettings =
             getSharedPreferences(GlobalDataLoader.APP_PREFERENCES, Context.MODE_PRIVATE)
 
-
         if (mSettings.contains(GlobalDataLoader.APP_TOKEN)) {
             Log.d("AUTH", "Found token")
             val token = mSettings.getString(GlobalDataLoader.APP_TOKEN, "") ?: ""
@@ -30,22 +29,10 @@ class LoginActivity : AppCompatActivity()  {
             if (token != "") {
                 val req = TcpRequest("CHECK_TOKEN $token") { res ->
                     if (res?.succ == true) {
-                        val userId = (res.data ?: "0").toLong()
-                        val t = TcpRequest("IS_TP $userId") {
-                            if (it?.succ == true) {
-                                var type = UserType.WORKER
-                                if (it.data == "1")
-                                    type = UserType.SUPPORT
-                                User.current = User(userId, "NAME", type).apply {
-                                    devices.addAll(User.userTest.devices)
-                                }
-                                Log.d("STATUS:", User.current.type.toString())
-                                runOnUiThread {
-                                    startActivity(intentFor<MainActivity>().newTask().clearTask())
-                                }
-                            }
-                        }
-                        Thread(t).run()
+                        User.current = User((res.data ?: "0").toLong(), "NAME", UserType.WORKER).apply {
+                            devices.addAll(User.userTest.devices)
+                        } // TODO
+                        startActivity(intentFor<MainActivity>().newTask().clearTask())
                     }
                 }
                 Thread(req).start()
@@ -57,29 +44,21 @@ class LoginActivity : AppCompatActivity()  {
                 val req = TcpRequest("AUTH ${textEmailAddress.text} ${textPassword.text} ") { res ->
                     if (res?.succ == true) {
                         val authData = JSONObject(res.data ?: "")
-                        val userId = authData.optLong("ID")
+                        User.current = User(authData.optLong("ID"), "NAME", UserType.WORKER).apply {
+                            devices.addAll(User.userTest.devices)
+                        } // TODO
                         val editor = mSettings.edit()
                         editor.putString(GlobalDataLoader.APP_TOKEN, authData.optString("Token"))
                         editor.apply()
-                        val t = TcpRequest("IS_TP $userId") {
-                            if (it?.succ == true) {
-                                var type = UserType.WORKER
-                                if (it.data == "1")
-                                    type = UserType.SUPPORT
-                                User.current = User(userId, "NAME", type).apply {
-                                    devices.addAll(User.userTest.devices)
-                                }
-                                Log.d("STATUS:", User.current.type.toString())
-                                runOnUiThread {
-                                    startActivity(intentFor<MainActivity>().newTask().clearTask())
-                                }
-                            }
+                        runOnUiThread {
+                            startActivity(intentFor<MainActivity>().newTask().clearTask())
                         }
-                        Thread(t).run()
                     }
                 }
                 Thread(req).start()
-            } catch (e: Exception) { }
+            } catch (e: Exception) {
+                // TODO
+            }
         }
 
         buttonCreateNew.setOnClickListener {
