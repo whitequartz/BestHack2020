@@ -26,17 +26,20 @@ class RegisterActivity : AppCompatActivity()   {
             textNoEMail.visibility = INVISIBLE
 
             val loginExsist = false  // email лежит в editTextTextEmailAddress.text
-            if(loginExsist) {
-                textErrorEMail.visibility = VISIBLE
-            } else if(editTextTextEmailAddress.text.toString() == "") {
-                textNoEMail.visibility = VISIBLE
-            } else if(editTextTextPassword.text.toString() != editTextTextPassword2.text.toString()) {
-                textErrorPassword.visibility = VISIBLE
-            } else if(editTextTextPassword.text.toString() == "") {
-                textNoPassword.visibility = VISIBLE
-            } else {
-                // create new account
-                startActivity(intentFor<MainActivity>().newTask().clearTask())
+            when {
+                editTextTextEmailAddress.text.toString() == "" -> {
+                    textNoEMail.visibility = VISIBLE
+                }
+                editTextTextPassword.text.toString() != editTextTextPassword2.text.toString() -> {
+                    textErrorPassword.visibility = VISIBLE
+                }
+                editTextTextPassword.text.toString() == "" -> {
+                    textNoPassword.visibility = VISIBLE
+                }
+                else -> {
+                    // create new account
+                    startActivity(intentFor<MainActivity>().newTask().clearTask())
+                }
             }
         }
 
