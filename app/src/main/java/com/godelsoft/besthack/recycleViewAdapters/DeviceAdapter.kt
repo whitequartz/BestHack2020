@@ -6,24 +6,27 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.godelsoft.besthack.CalFormatter
+import com.godelsoft.besthack.Device
 import com.godelsoft.besthack.Issue
 import com.godelsoft.besthack.R
+import java.util.*
 
 
-class EquipAdapter(
+class DeviceAdapter(
     private val context: Context
-) : RecyclerView.Adapter<EquipAdapter.IssueViewHolder>() {
+) : RecyclerView.Adapter<DeviceAdapter.DeviceViewHolder>() {
 
-    private var issueList = mutableListOf<Issue>()
+    private var deviceList = mutableListOf<Device>()
 
-    inner class IssueViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class DeviceViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private var header: TextView = itemView.findViewById(R.id.header)
         private var description: TextView = itemView.findViewById(R.id.description)
         private var time: TextView = itemView.findViewById(R.id.time)
 
-        fun bind(issue: Issue) {
-            header.text = issue.header
-            description.text = issue.description
+        fun bind(device: Device) {
+            header.text = device.type.toString()
+            description.text = device.model
 //            when (issue.event.category) {
 //                EventCategory.PERSONAL ->
 //                    categoryColor.setBackgroundColor(getColor(context, R.color.colorEventPersonal))
@@ -32,12 +35,14 @@ class EquipAdapter(
 //                EventCategory.LBG ->
 //                    categoryColor.setBackgroundColor(getColor(context, R.color.colorEventLGB))
 //            }
-            time.text = issue.time
+            time.text = CalFormatter.datef(device.buyTime.apply { add(Calendar.MILLISECOND,
+                device.validTime.toInt()
+            ) })
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): IssueViewHolder {
-        return IssueViewHolder(
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DeviceViewHolder {
+        return DeviceViewHolder(
             LayoutInflater
                 .from(context)
                 .inflate(R.layout.card_issue, parent, false)
@@ -45,16 +50,16 @@ class EquipAdapter(
     }
 
     override fun getItemCount(): Int {
-        return issueList.count()
+        return deviceList.count()
     }
 
-    override fun onBindViewHolder(holder: IssueViewHolder, position: Int) {
-        issueList[position].let { holder.bind(it) }
+    override fun onBindViewHolder(holder: DeviceViewHolder, position: Int) {
+        deviceList[position].let { holder.bind(it) }
     }
 
-    fun update(data: List<Issue>) {
-        issueList.clear()
-        issueList.addAll(data)
+    fun update(data: List<Device>) {
+        deviceList.clear()
+        deviceList.addAll(data)
         notifyDataSetChanged()
     }
 }

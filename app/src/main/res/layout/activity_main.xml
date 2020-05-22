@@ -81,7 +81,7 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <TableLayout
-                android:id="@+id/leftPanel"
+                android:id="@+id/devicePanel"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="3"

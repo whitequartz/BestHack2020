@@ -1,20 +1,20 @@
 package com.godelsoft.besthack
 
 import android.content.Context
-import android.graphics.Color
-import android.graphics.ColorFilter
 import android.graphics.PorterDuff
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View.GONE
 import android.view.View.VISIBLE
+import android.widget.TableRow
 import androidx.constraintlayout.motion.widget.MotionLayout
-import androidx.core.content.ContextCompat
+import androidx.core.view.children
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.godelsoft.besthack.recycleViewAdapters.IssueAdapter
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_main.view.*
 import org.jetbrains.anko.startActivity
+import java.util.*
 
 class MainActivity : AppCompatActivity() {
     private lateinit var recycleAdapter: IssueAdapter
@@ -59,68 +59,19 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
-
-        system.apply {
-            deviceName.text = "ASUS ROG"
-            lastValidDate.text = "28.04"
-            progressBar.progress = 68
-            progressBar.progressDrawable.setColorFilter(Color.rgb( 255 - 255 / 100 * progressBar.progress, 255 / 100 * progressBar.progress, 0), PorterDuff.Mode.SRC_IN )
-        }
-
-        monitor.apply {
-            deviceName.text = "AOC 14\""
-            lastValidDate.text = "29.04"
-            progressBar.progress = 20
-            progressBar.progressDrawable.setColorFilter(Color.rgb( 255 - 255 / 100 * progressBar.progress, 255 / 100 * progressBar.progress, 0), PorterDuff.Mode.SRC_IN )
-        }
-
-        second_monitor.apply {
-            deviceName.text = "AOC 16\""
-            lastValidDate.text = "30.04"
-            progressBar.progress = 45
-            progressBar.progressDrawable.setColorFilter(Color.rgb( 255 - 255 / 100 * progressBar.progress, 255 / 100 * progressBar.progress, 0), PorterDuff.Mode.SRC_IN )
-        }
-
-        keyboard.apply {
-            deviceName.text = "ASUS Claymore"
-            lastValidDate.text = "20.06"
-            progressBar.progress = 97
-            progressBar.progressDrawable.setColorFilter(Color.rgb( 255 - 255 / 100 * progressBar.progress, 255 / 100 * progressBar.progress, 0), PorterDuff.Mode.SRC_IN )
-        }
-
-        mouse.apply {
-            deviceName.text = "Zowie EC2-A"
-            lastValidDate.text = "14.04"
-            progressBar.progress = 6
-            progressBar.progressDrawable.setColorFilter(Color.rgb( 255 - 255 / 100 * progressBar.progress, 255 / 100 * progressBar.progress, 0), PorterDuff.Mode.SRC_IN )
-        }
-
-        headphones.apply {
-            deviceName.text = "HyperX"
-            lastValidDate.text = "16.04"
-            progressBar.progress = 28
-            progressBar.progressDrawable.setColorFilter(Color.rgb( 255 - 255 / 100 * progressBar.progress, 255 / 100 * progressBar.progress, 0), PorterDuff.Mode.SRC_IN )
-        }
-
-        cam.apply {
-            deviceName.text = "LG 270"
-            lastValidDate.text = "15.04"
-            progressBar.progress = 70
-            progressBar.progressDrawable.setColorFilter(Color.rgb( 255 - 255 / 100 * progressBar.progress, 255 / 100 * progressBar.progress, 0), PorterDuff.Mode.SRC_IN )
-        }
-
-        mic.apply {
-            deviceName.text = "Yeti"
-            lastValidDate.text = "23.05"
-            progressBar.progress = 87
-            progressBar.progressDrawable.setColorFilter(Color.rgb( 255 - 255 / 100 * progressBar.progress, 255 / 100 * progressBar.progress, 0), PorterDuff.Mode.SRC_IN )
-        }
-
-        wifi.apply {
-            deviceName.text = "Xiaomi A8"
-            lastValidDate.text = "21.09"
-            progressBar.progress = 94
-            progressBar.progressDrawable.setColorFilter(Color.rgb( 255 - 255 / 100 * progressBar.progress, 255 / 100 * progressBar.progress, 0), PorterDuff.Mode.SRC_IN )
+        for ((r, v) in devicePanel.children.withIndex()) {
+            if (v is TableRow) {
+                for ((i, card) in v.children.withIndex()) {
+                    card.deviceName.text = User.current.devices[3 * r + i].model
+                    User.current.devices[3 * r + i].let { card.lastValidDate.text = CalFormatter.datef(Calendar.getInstance().apply {
+                        set(Calendar.MILLISECOND, it.buyTime.timeInMillis.toInt())
+                        add(Calendar.MILLISECOND,
+                        it.validTime.toInt()
+                    ) })}
+                    card.progressBar.progress = User.current.devices[3 * r + i].getProgress()
+                    card.progressBar.progressDrawable.setColorFilter( User.current.devices[3 * r + i].getProgressColor(), PorterDuff.Mode.SRC_IN)
+                }
+            }
         }
 
         recycleAdapter.update(listOf(
