@@ -16,16 +16,24 @@ class RegisterActivity : AppCompatActivity()   {
         setContentView(R.layout.activity_register)
         textErrorEMail.visibility = INVISIBLE
         textErrorPassword.visibility = INVISIBLE
+        textNoPassword.visibility = INVISIBLE
+        textNoEMail.visibility = INVISIBLE
 
         buttonRegister.setOnClickListener {
             textErrorEMail.visibility = INVISIBLE
             textErrorPassword.visibility = INVISIBLE
+            textNoPassword.visibility = INVISIBLE
+            textNoEMail.visibility = INVISIBLE
 
             val loginExsist = false  // email лежит в editTextTextEmailAddress.text
             if(loginExsist) {
                 textErrorEMail.visibility = VISIBLE
+            } else if(editTextTextEmailAddress.text.toString() == "") {
+                textNoEMail.visibility = VISIBLE
             } else if(editTextTextPassword.text.toString() != editTextTextPassword2.text.toString()) {
                 textErrorPassword.visibility = VISIBLE
+            } else if(editTextTextPassword.text.toString() == "") {
+                textNoPassword.visibility = VISIBLE
             } else {
                 // create new account
                 startActivity(intentFor<MainActivity>().newTask().clearTask())
