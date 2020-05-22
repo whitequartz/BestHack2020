@@ -21,8 +21,6 @@ import kotlinx.android.synthetic.main.activity_main.view.*
 import org.jetbrains.anko.startActivity
 import org.json.JSONArray
 import java.util.*
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 
 class MainActivity : AppCompatActivity() {
     private lateinit var recycleAdapter: IssueAdapter
@@ -67,17 +65,21 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
-//        var l = arrayListOf<Device>()
-//        val req = TcpRequest("GET_DEVICES ${User.current.ID}") { res ->
-//            if (res?.succ == true) {
-//                val gson = Gson()
-//                val arrayTutorialType = object : TypeToken<Array<Tutorial>>() {}.type
-//
-//                var tutorials: Array<Tutorial> = gson.fromJson(res.data, arrayTutorialType)
-//                tutorials.forEachIndexed  { idx, tut -> l.add(tut) }
-//            }
-//        }
-//        Thread(req).start()
+        var l = arrayListOf<Device>()
+        val req = TcpRequest("GET_DEVICES ${User.current.ID}") { res ->
+            if (res?.succ == true) {
+                val devices = JSONArray(res.data).let {
+                    0.until(it.length()).map { i -> it.optJSONObject(i) }
+                }.map { Device(
+                    DeviceType.values()[it.optInt("Type") ?: 0],
+                    it.optString("Model") ?: "",
+                    it.optInt("Cost"),
+                    CalFormatter.getCalendarFromDate(Date(it.optLong("BuyTime"))),
+                    it.optLong("ValidTime")
+                )}
+            }
+        }
+        Thread(req).start()
 //        User.current.devices = l
 
 
