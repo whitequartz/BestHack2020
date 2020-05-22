@@ -65,16 +65,28 @@ class MainActivity : AppCompatActivity() {
         for ((r, v) in devicePanel.children.withIndex()) {
             if (v is TableRow) {
                 for ((i, card) in v.children.withIndex()) {
-                    card.deviceName.text = User.current.devices[3 * r + i].model
-//                        CalFormatter.datef(User.current.devices[3 * r + i].buyTime)
-                    User.current.devices[3 * r + i].let { card.lastValidDate.text = CalFormatter.datef(it.getInvalidDate())}
-                    card.progressBar.progress = User.current.devices[3 * r + i].getProgress()
-                    if (card.progressBar.progress == 0) {
+                    val device =  User.current.devices[3 * r + i]
+                    if (device == null) {
+                        card.deviceName.text = "Отсутствует"
+                        card.lastValidDate.visibility = GONE
+                        card.progressBar.visibility = GONE
                         (card as CardView).setCardBackgroundColor(Color.parseColor("#f5b2ae"))
                     } else {
-                        (card as CardView).setCardBackgroundColor(Color.parseColor("#FAFAFA"))
+                        card.lastValidDate.visibility = VISIBLE
+                        card.progressBar.visibility = VISIBLE
+                        card.deviceName.text = device.model
+                        card.lastValidDate.text = CalFormatter.datef(device.getInvalidDate())
+                        card.progressBar.progress = device.getProgress()
+                        if (card.progressBar.progress == 0) {
+                            (card as CardView).setCardBackgroundColor(Color.parseColor("#f5b2ae"))
+                        } else {
+                            (card as CardView).setCardBackgroundColor(Color.parseColor("#FAFAFA"))
+                        }
+                        card.progressBar.progressDrawable.setColorFilter(
+                            device.getProgressColor(),
+                            PorterDuff.Mode.SRC_IN
+                        )
                     }
-                    card.progressBar.progressDrawable.setColorFilter( User.current.devices[3 * r + i].getProgressColor(), PorterDuff.Mode.SRC_IN)
                 }
             }
         }
@@ -114,7 +126,6 @@ class MainActivity : AppCompatActivity() {
         }
 
         account.setOnClickListener {
-            print("\n\n\n11111111111111111111111")
             startActivity<MyAccountActivity>()
         }
     }

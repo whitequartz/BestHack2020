@@ -7,7 +7,10 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.godelsoft.besthack.Issue
+import com.godelsoft.besthack.IssueChatActivity
+import com.godelsoft.besthack.MainActivity
 import com.godelsoft.besthack.R
+import org.jetbrains.anko.startActivity
 
 
 class IssueAdapter(
@@ -33,6 +36,9 @@ class IssueAdapter(
 //                    categoryColor.setBackgroundColor(getColor(context, R.color.colorEventLGB))
 //            }
             time.text = issue.time
+            itemView.setOnClickListener {
+                MainActivity.main.startActivity<IssueChatActivity>()
+            }
         }
     }
 
