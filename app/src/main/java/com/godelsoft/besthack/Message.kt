@@ -1,6 +1,7 @@
 package com.godelsoft.besthack
 
 import com.godelsoft.besthack.recycleViewAdapters.MessageAdapter
+import org.json.JSONObject
 
 class Message(
     val sender: User,
@@ -25,4 +26,13 @@ class Message(
             return list
         }
     }
+}
+
+class MessageJSON(private val json: String) : JSONObject(json) {
+    val id              = this.optLong("ID")
+    val sender          = this.optLong("SenderID")
+    val issue           = this.optLong("IssueID")
+    val time            = this.optLong("Time")
+    val text: String    = this.optString("Content")
+    val mtype           = this.optInt("MType")
 }
