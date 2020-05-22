@@ -78,6 +78,9 @@ class IssueChatActivity : AppCompatActivity() {
                         TransitionManager.beginDelayedTransition(root)
 
                         send.setOnClickListener {
+                            val jsonStr = """{"Sender":${User.current.ID},"Dest":${1},"Data":"${editText_message.text.toString()}"}"""
+                            val t = TcpRequest("SEND_MSG $jsonStr") {}
+                            Thread(t).start()
                             recycleAdapter.add(
                                 arrayListOf(
                                     Message(
