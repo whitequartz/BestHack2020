@@ -30,10 +30,19 @@ class LoginActivity : AppCompatActivity()  {
             if (token != "") {
                 val req = TcpRequest("CHECK_TOKEN $token") { res ->
                     if (res?.succ == true) {
-                        User.current = User((res.data ?: "0").toLong(), "NAME", UserType.WORKER).apply {
-                            devices.addAll(User.userTest.devices)
+                        val userId = (res.data ?: "0").toLong()
+                        TcpRequest("IS_TP $userId") {
+                            if (it?.succ == true) {
+                                val type = UserType.WORKER
+                                if (it.data == "1")
+                                    User.current.type = UserType.SUPPORT
+                                User.current = User(userId, "NAME", type).apply {
+                                    devices.addAll(User.userTest.devices)
+                                }
+                                Log.d("STATUS:", User.current.type.toString())
+                                startActivity(intentFor<MainActivity>().newTask().clearTask())
+                            }
                         }
-                        startActivity(intentFor<MainActivity>().newTask().clearTask())
                     }
                 }
                 Thread(req).start()

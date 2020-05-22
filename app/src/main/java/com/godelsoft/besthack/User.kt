@@ -6,7 +6,7 @@ import kotlin.collections.ArrayList
 class User(
     val ID:   Long,
     var name: String,
-    val type: UserType
+    var type: UserType
 ) {
     var devices: ArrayList<Device?> = arrayListOf()
 

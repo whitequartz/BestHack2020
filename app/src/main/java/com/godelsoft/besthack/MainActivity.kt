@@ -80,6 +80,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
         Thread(req).start()
+
 //        User.current.devices = l
 
 
